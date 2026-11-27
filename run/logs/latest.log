@@ -153,3 +153,9 @@
 [27Nov2026 12:55:15.069] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving players
 [27Nov2026 12:55:15.070] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving worlds
 [27Nov2026 12:55:21.394] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[New World]'/minecraft:overworld
+[27Nov2026 12:55:22.075] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[New World]'/minecraft:the_end
+[27Nov2026 12:55:22.076] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[New World]'/minecraft:the_nether
+[27Nov2026 12:55:22.105] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (New World): All chunks are saved
+[27Nov2026 12:55:22.105] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[27Nov2026 12:55:22.106] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[27Nov2026 12:55:22.106] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved
