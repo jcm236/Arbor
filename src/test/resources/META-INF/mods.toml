@@ -1,15 +1,15 @@
-modLoader="javafml"
-loaderVersion="[47,)"
-license="MIT"
+modLoader = "javafml"
+loaderVersion = "[47,)"
+license = "MIT"
 
 [[mods]]
-modId="tautest"
-version="0.0.0"
-displayName="Tau Test Mod"
+modId = "arbortest"
+version = "0.0.0"
+displayName = "Arbor Test Mod"
 
-[[dependencies.tautest]]
-modId="tau"
-mandatory=true
-versionRange="[0,)"
-ordering="AFTER"
-side="BOTH"
+[[dependencies.arbortest]]
+modId = "arbor"
+mandatory = true
+versionRange = "[0,)"
+ordering = "AFTER"
+side = "BOTH"

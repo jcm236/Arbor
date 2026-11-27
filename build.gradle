@@ -78,7 +78,7 @@ minecraft {
                 "${mod_id}" {
                     source sourceSets.main
                 }
-                tautest {
+                arbortest {
                     source sourceSets.test
                 }
             }
@@ -168,11 +168,11 @@ dependencies {
 // See https://docs.gradle.org/current/dsl/org.gradle.language.jvm.tasks.ProcessResources.html
 tasks.named('processResources', ProcessResources).configure {
     var replaceProperties = [
-            minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
-            forge_version: forge_version, forge_version_range: forge_version_range,
+            minecraft_version   : minecraft_version, minecraft_version_range: minecraft_version_range,
+            forge_version       : forge_version, forge_version_range: forge_version_range,
             loader_version_range: loader_version_range,
-            mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
-            mod_authors: mod_authors, mod_description: mod_description,
+            mod_id              : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+            mod_authors         : mod_authors, mod_description: mod_description,
     ]
     inputs.properties replaceProperties
 
@@ -204,6 +204,12 @@ tasks.named('jar', Jar).configure {
 //     dependsOn 'reobfJar'
 // }
 
+tasks.withType(Jar).configureEach {
+    from('LICENSE') {
+        into 'META-INF'
+    }
+}
+
 // Example configuration to allow publishing using the maven-publish plugin
 publishing {
     publications {
@@ -213,7 +219,11 @@ publishing {
     }
     repositories {
         maven {
-            url "file://${project.projectDir}/mcmodsrepo"
+            url = 'https://maven.unstoppablewhimsy.dev/'
+            credentials {
+                username = findProperty('whimsyUser') ?: System.getenv('WHIMSY_MAVEN_USER')
+                password = findProperty('whimsyToken') ?: System.getenv('WHIMSY_MAVEN_TOKEN')
+            }
         }
     }
 }

@@ -1,0 +1,39 @@
+package dev.jcm.arbor.menu.handlers;
+
+import dev.jcm.arbor.menu.ArborContainerMenu;
+import dev.jcm.arbor.utils.Variable;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.SlotItemHandler;
+
+public class ItemSlotHandler implements ISlotHandler {
+
+    private final IItemHandler inventory;
+    private final int index;
+    private final Variable<Boolean> enabled;
+
+    public ItemSlotHandler(IItemHandler inventory, int index, Variable<Boolean> enabled) {
+        this.inventory = inventory;
+        this.index = index;
+        this.enabled = enabled;
+    }
+
+    @Override
+    public void setupSync(ArborContainerMenu menu, Inventory playerInv, int x, int y) {
+        menu.addSlot(new DisablableSlot(inventory, index, x + 1, y + 1, enabled));
+    }
+
+    private static class DisablableSlot extends SlotItemHandler {
+        private final Variable<Boolean> enabled;
+
+        public DisablableSlot(IItemHandler itemHandler, int index, int xPosition, int yPosition, Variable<Boolean> enabled) {
+            super(itemHandler, index, xPosition, yPosition);
+            this.enabled = enabled;
+        }
+
+        @Override
+        public boolean isActive() {
+            return enabled.getValue();
+        }
+    }
+}
