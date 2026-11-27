@@ -1,5 +1,6 @@
 package com.github.wintersteve25.tau.menu;
 
+import com.google.common.base.Suppliers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -21,7 +22,7 @@ public class TauMenuHolder {
     private final RegistryObject<MenuType<TauContainerMenu>> inner;
 
     public TauMenuHolder(DeferredRegister<MenuType<?>> register, Supplier<UIMenu> menu, String name) {
-        this.menu = menu;
+        this.menu = Suppliers.memoize(menu::get);
         this.inner = menu.get().registerMenuType(register, this, name);
     }
 

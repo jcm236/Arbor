@@ -29,10 +29,17 @@ public class TauTest {
     }
 
     private static void registerCommands(RegisterCommandsEvent event) {
-        event.getDispatcher().register(Commands.literal("tautest").then(Commands.literal("menu").executes(ctx -> {
-            ServerPlayer player = ctx.getSource().getPlayerOrException();
-            TEST_MENU.openMenu(player);
-            return 1;
-        })));
+        event.getDispatcher().register(Commands.literal("tautest")
+                .then(Commands.literal("menu").executes(ctx -> {
+                    ServerPlayer player = ctx.getSource().getPlayerOrException();
+                    TEST_MENU.openMenu(player);
+                    return 1;
+                }))
+                .then(Commands.literal("block").executes(ctx -> {
+                    ServerPlayer p = ctx.getSource().getPlayerOrException();
+                    TEST_MENU.openMenu(p, p.blockPosition().below());
+                    return 1;
+                }))
+        );
     }
 }
