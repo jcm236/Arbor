@@ -8,7 +8,6 @@ import com.github.wintersteve25.tau.theme.Theme;
 import com.github.wintersteve25.tau.utils.SimpleVec2i;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UIBuilder {
@@ -24,9 +23,9 @@ public class UIBuilder {
 
     // param size is the accumulated size of this component branch
     private static SimpleVec2i build(Layout layout, Theme theme, UIComponent uiComponent, BuildContext context, SimpleVec2i size) {
-        if (uiComponent instanceof DynamicUIComponent dynamicUIComponent) {
-            dynamicUIComponent.buildDynamic(context, layout.copy(), theme);
-            context.dynamicUIComponents().add(dynamicUIComponent);
+        if (uiComponent instanceof DynamicUIComponent dynamic) {
+            size.add(dynamic.mount(layout, theme, context));
+            return size;
         }
 
         if (uiComponent instanceof GuiEventListener) {
@@ -39,20 +38,8 @@ public class UIBuilder {
 
         UIComponent next = uiComponent.build(layout, theme);
 
-        if (next == null) {
-            finishDynamicUIComponent(uiComponent, context);
-            return size;
-        }
 
-        SimpleVec2i resultSize = build(layout, theme, next, context, size);
-        finishDynamicUIComponent(uiComponent, context);
-        return resultSize;
-    }
-
-    private static void finishDynamicUIComponent(UIComponent uiComponent, BuildContext context) {
-        if (uiComponent instanceof DynamicUIComponent dynamicUIComponent) {
-            dynamicUIComponent.finalizeDynamic(context);
-        }
+        return build(layout, theme, next, context, size);
     }
 
     /**
@@ -60,13 +47,6 @@ public class UIBuilder {
      * @param dynamicUIComponents All dynamic components
      */
     public static void rebuildAndTickDynamicUIComponents(List<DynamicUIComponent> dynamicUIComponents) {
-        for (DynamicUIComponent dynamicUIComponent : dynamicUIComponents) {
-            dynamicUIComponent.tick();
-        }
-
-        for (DynamicUIComponent component : new ArrayList<>(dynamicUIComponents)) {
-            if (component.dirty) component.rebuildImmediately();
-            component.dirty = false;
-        }
+        for (DynamicUIComponent component : List.copyOf(dynamicUIComponents)) component.tickTree();
     }
 }

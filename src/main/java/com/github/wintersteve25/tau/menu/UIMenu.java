@@ -35,8 +35,10 @@ public abstract class UIMenu {
         needsRebuild = true;
     }
 
-    public boolean isNeedsRebuild() {
-        return needsRebuild;
+    public boolean consumeRebuild() {
+        boolean result = needsRebuild;
+        needsRebuild = false;
+        return result;
     }
 
     public int getTopPos(Layout layout, int width, int height) {

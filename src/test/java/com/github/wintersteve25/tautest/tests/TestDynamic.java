@@ -15,8 +15,6 @@ public class TestDynamic extends DynamicUIComponent implements GuiEventListener 
 
     @Override
     public UIComponent build(Layout layout, Theme theme) {
-        clicked = !clicked;
-
         if (clicked) {
             return new Container.Builder();
         }
@@ -29,6 +27,7 @@ public class TestDynamic extends DynamicUIComponent implements GuiEventListener 
 
     @Override
     public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+        clicked = !clicked;
         rebuild();
         return GuiEventListener.super.mouseClicked(pMouseX, pMouseY, pButton);
     }

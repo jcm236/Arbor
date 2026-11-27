@@ -1,42 +1,33 @@
 package com.github.wintersteve25.tau.menu;
 
-import com.github.wintersteve25.tau.build.BuildContext;
-import com.github.wintersteve25.tau.build.UIBuilder;
-import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
+import com.github.wintersteve25.tau.build.BuiltUI;
 import com.github.wintersteve25.tau.layout.Axis;
 import com.github.wintersteve25.tau.layout.Layout;
 import com.github.wintersteve25.tau.theme.Theme;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TauContainerScreen extends AbstractContainerScreen<TauContainerMenu> implements MenuAccess<TauContainerMenu> {
 
     private final UIMenu uiMenu;
-    private final List<Renderable> components;
-    private final List<Renderable> tooltips;
-    private final List<DynamicUIComponent> dynamicUIComponents;
+
+    private final BuiltUI ui = new BuiltUI((List<GuiEventListener>) this.children());
 
     private final boolean renderBackground;
     private final Theme theme;
-
-    private boolean built;
 
     public TauContainerScreen(TauContainerMenu pMenu, Inventory pPlayerInventory, UIMenu uiMenu, boolean renderBackground, Theme theme, Component title) {
         super(pMenu, pPlayerInventory, title);
         this.uiMenu = uiMenu;
         this.renderBackground = renderBackground;
         this.theme = theme;
-        this.components = new ArrayList<>();
-        this.tooltips = new ArrayList<>();
-        this.dynamicUIComponents = new ArrayList<>();
     }
 
     @Override
@@ -48,38 +39,24 @@ public class TauContainerScreen extends AbstractContainerScreen<TauContainerMenu
         layout.pushOffset(Axis.HORIZONTAL, leftPos);
         layout.pushOffset(Axis.VERTICAL, topPos);
 
-        components.clear();
-        tooltips.clear();
-        dynamicUIComponents.clear();
-        children().clear();
-
-        UIBuilder.build(layout, theme, uiMenu.build(layout, theme, getMenu()), new BuildContext(components, tooltips, dynamicUIComponents, (List<GuiEventListener>) children(), new ArrayList<>()));
-
-        layout.popOffset(Axis.HORIZONTAL);
-        layout.popOffset(Axis.VERTICAL);
-
-        built = true;
+        ui.build(layout, theme, uiMenu.build(layout, theme, getMenu()));
     }
 
     @Override
-    protected void renderBg(GuiGraphics graphics, float pPartialTick, int pMouseX, int pMouseY) {
+    protected void renderBg(@NotNull GuiGraphics graphics, float pPartialTick, int pMouseX, int pMouseY) {
         if (renderBackground) {
             this.renderBackground(graphics);
         }
 
-        for (Renderable component : components) {
-            component.render(graphics, pMouseX, pMouseY, pPartialTick);
-        }
+        ui.render(graphics, pMouseX, pMouseY, pPartialTick);
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         renderTooltip(guiGraphics, mouseX, mouseY);
 
-        for (Renderable tooltip : tooltips) {
-            tooltip.render(guiGraphics, mouseX, mouseY, partialTick);
-        }
+        ui.renderTooltips(guiGraphics, mouseX, mouseY, partialTick);
     }
 
     @Override
@@ -88,20 +65,16 @@ public class TauContainerScreen extends AbstractContainerScreen<TauContainerMenu
 
     @Override
     public void containerTick() {
-        if (!built) return;
-        if (uiMenu.isNeedsRebuild()) init();
-        UIBuilder.rebuildAndTickDynamicUIComponents(dynamicUIComponents);
+        if (uiMenu.consumeRebuild()) init();
+        ui.tick();
         uiMenu.tick(menu);
     }
 
     @Override
-    public void onClose() {
-        for (DynamicUIComponent dynamicUIComponent : dynamicUIComponents) {
-            dynamicUIComponent.destroy();
-        }
-
+    public void removed() {
+        ui.destroy();
         uiMenu.onClose();
-        super.onClose();
+        super.removed();
     }
 
     @Override

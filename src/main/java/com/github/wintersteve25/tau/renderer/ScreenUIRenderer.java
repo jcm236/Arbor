@@ -1,39 +1,29 @@
 package com.github.wintersteve25.tau.renderer;
 
-import com.github.wintersteve25.tau.build.BuildContext;
-import com.github.wintersteve25.tau.build.UIBuilder;
-import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
+import com.github.wintersteve25.tau.build.BuiltUI;
 import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.layout.Layout;
 import com.github.wintersteve25.tau.theme.MinecraftTheme;
 import com.github.wintersteve25.tau.theme.Theme;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ScreenUIRenderer extends Screen {
 
     private final UIComponent uiComponent;
-    private final List<Renderable> components;
-    private final List<Renderable> tooltips;
-    private final List<DynamicUIComponent> dynamicUIComponents;
+    private final BuiltUI ui = new BuiltUI((List<GuiEventListener>) this.children());
     private final boolean renderBackground;
     private final Theme theme;
-    private boolean built;
 
     public ScreenUIRenderer(UIComponent uiComponent, boolean renderBackground, Theme theme) {
         super(Component.empty());
         this.uiComponent = uiComponent;
         this.renderBackground = renderBackground;
         this.theme = theme;
-        this.components = new ArrayList<>();
-        this.tooltips = new ArrayList<>();
-        this.dynamicUIComponents = new ArrayList<>();
     }
 
     public ScreenUIRenderer(UIComponent uiComponent, boolean renderBackground) {
@@ -46,28 +36,17 @@ public class ScreenUIRenderer extends Screen {
 
     @Override
     protected void init() {
-        Layout layout = new Layout(width, height);
-
-        components.clear();
-        tooltips.clear();
-        dynamicUIComponents.clear();
-        UIBuilder.build(layout, theme, uiComponent, new BuildContext(components, tooltips, dynamicUIComponents, (List<GuiEventListener>) children(), new ArrayList<>()));
-
-        built = true;
+        ui.build(new Layout(width, height), theme, uiComponent);
     }
 
     @Override
     public void tick() {
-        if (!built) return;
-        UIBuilder.rebuildAndTickDynamicUIComponents(dynamicUIComponents);
+        ui.tick();
     }
 
     @Override
-    public void onClose() {
-        for (DynamicUIComponent dynamicUIComponent : dynamicUIComponents) {
-            dynamicUIComponent.destroy();
-        }
-
+    public void removed() {
+        ui.destroy();
         super.onClose();
     }
 
@@ -77,12 +56,8 @@ public class ScreenUIRenderer extends Screen {
             this.renderBackground(graphics);
         }
 
-        for (Renderable component : components) {
-            component.render(graphics, pMouseX, pMouseY, pPartialTicks);
-        }
+        ui.render(graphics, pMouseX, pMouseY, pPartialTicks);
 
-        for (Renderable tooltip : tooltips) {
-            tooltip.render(graphics, pMouseX, pMouseY, pPartialTicks);
-        }
+        ui.renderTooltips(graphics, pMouseX, pMouseY, pPartialTicks);
     }
 }

@@ -26,4 +26,12 @@ public record BuildContext(
         this.eventListeners.addAll(context.eventListeners);
         this.slots.addAll(context.slots);
     }
+
+    public void clear() {
+        renderables.clear();
+        tooltips.clear();
+        dynamicUIComponents.clear();
+        eventListeners.clear();
+        slots.clear();
+    }
 }

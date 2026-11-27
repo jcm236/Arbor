@@ -44,52 +44,41 @@ public class TestAll implements UIComponent {
                         new TestButton(new TestTooltip()),
                         new TestButton(new TestTransform()),
                         new TestButton(new TestWidgetWrapper()),
-                        new TestButton(new TestInventoryVisual())
+                        new TestButton(new TestInventoryVisual()),
+                        new TestButton(new TestDynamicNesting())
                 );
     }
 
-    private static final class TestButton implements UIComponent {
-
-        private final UIComponent screen;
-
-        private TestButton(UIComponent screen) {
-            this.screen = screen;
-        }
+    private record TestButton(UIComponent screen) implements UIComponent {
 
         @Override
-        public UIComponent build(Layout layout, Theme theme) {
-            return new Sized(
-                    Size.staticSize(200, 20),
-                    new Button.Builder()
-                            .withOnPress((button) -> Minecraft.getInstance().setScreen(new ScreenUIRenderer(new TestScreen(screen), true)))
-                            .build(new Center(new Text.Builder(screen.getClass().getSimpleName())))
-            );
+            public UIComponent build(Layout layout, Theme theme) {
+                return new Sized(
+                        Size.staticSize(200, 20),
+                        new Button.Builder()
+                                .withOnPress((button) -> Minecraft.getInstance().setScreen(new ScreenUIRenderer(new TestScreen(screen), true)))
+                                .build(new Center(new Text.Builder(screen.getClass().getSimpleName())))
+                );
+            }
         }
-    }
 
-    private static final class TestScreen implements UIComponent {
-
-        private final UIComponent screen;
-
-        private TestScreen(UIComponent screen) {
-            this.screen = screen;
-        }
+    private record TestScreen(UIComponent screen) implements UIComponent {
 
         @Override
-        public UIComponent build(Layout layout, Theme theme) {
-            return new Stack(
-                    FlexSizeBehaviour.MAX,
-                    screen,
-                    new Align.Builder()
-                            .withHorizontal(LayoutSetting.START)
-                            .withVertical(LayoutSetting.START)
-                            .build(new Sized(
-                                    Size.staticSize(60, 20),
-                                    new Button.Builder()
-                                            .withOnPress((button) -> Minecraft.getInstance().setScreen(new ScreenUIRenderer(new TestAll(), true)))
-                                            .build(new Center(new Text.Builder("Back"))))
-                            )
-            );
+            public UIComponent build(Layout layout, Theme theme) {
+                return new Stack(
+                        FlexSizeBehaviour.MAX,
+                        screen,
+                        new Align.Builder()
+                                .withHorizontal(LayoutSetting.START)
+                                .withVertical(LayoutSetting.START)
+                                .build(new Sized(
+                                        Size.staticSize(60, 20),
+                                        new Button.Builder()
+                                                .withOnPress((button) -> Minecraft.getInstance().setScreen(new ScreenUIRenderer(new TestAll(), true)))
+                                                .build(new Center(new Text.Builder("Back"))))
+                                )
+                );
+            }
         }
-    }
 }
