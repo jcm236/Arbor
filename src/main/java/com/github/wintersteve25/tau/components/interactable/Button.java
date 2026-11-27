@@ -44,6 +44,20 @@ public final class Button implements PrimitiveUIComponent, GuiEventListener {
         return layout.getSize();
     }
 
+    private InteractableState getInteractableState(int pMouseX, int pMouseY) {
+        if (onPress == null) {
+            return InteractableState.DISABLED;
+        } else if (isHovered(pMouseX, pMouseY)) {
+            return InteractableState.HOVERED;
+        }
+
+        return InteractableState.IDLE;
+    }
+
+    private boolean isHovered(int pMouseX, int pMouseY) {
+        return pMouseX > x && pMouseX < x + width && pMouseY > y && pMouseY < y + height;
+    }
+
     @Override
     public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
         if (onPress != null && isHovered((int) pMouseX, (int) pMouseY)) {
@@ -53,30 +67,9 @@ public final class Button implements PrimitiveUIComponent, GuiEventListener {
         }
 
         return false;
-    }
-
-    @Override
+    }    @Override
     public void setFocused(boolean pFocused) {
         focus = pFocused;
-    }
-
-    @Override
-    public boolean isFocused() {
-        return focus;
-    }
-
-    private boolean isHovered(int pMouseX, int pMouseY) {
-        return pMouseX > x && pMouseX < x + width && pMouseY > y && pMouseY < y + height;
-    }
-
-    private InteractableState getInteractableState(int pMouseX, int pMouseY) {
-        if (onPress == null) {
-            return InteractableState.DISABLED;
-        } else if (isHovered(pMouseX, pMouseY)) {
-            return InteractableState.HOVERED;
-        }
-
-        return InteractableState.IDLE;
     }
 
     public static final class Builder {
@@ -94,4 +87,13 @@ public final class Button implements PrimitiveUIComponent, GuiEventListener {
             return new Button(onPress, child);
         }
     }
+
+    @Override
+    public boolean isFocused() {
+        return focus;
+    }
+
+
+
+
 }

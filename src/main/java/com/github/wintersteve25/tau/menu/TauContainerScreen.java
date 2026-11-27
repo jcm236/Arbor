@@ -87,8 +87,6 @@ public class TauContainerScreen extends AbstractContainerScreen<TauContainerMenu
     }
 
     private boolean childDrag(double mouseX, double mouseY, int button, double dragX, double dragY) {
-        return this.getFocused() != null && this.isDragging() && button == 0
-                ? this.getFocused().mouseDragged(mouseX, mouseY, button, dragX, dragY)
-                : false;
+        return this.getFocused() != null && this.isDragging() && button == 0 && this.getFocused().mouseDragged(mouseX, mouseY, button, dragX, dragY);
     }
 }

@@ -15,12 +15,12 @@ public final class Color {
         this.hex = hex;
         this.hasTransparency = ((hex >> 24) & 0xFF) < 255;
     }
-    
+
     private Color(int hex, boolean hasTransparency) {
         this.hex = hex;
         this.hasTransparency = hasTransparency;
     }
-    
+
     public static Color fromRGBA(int r, int g, int b, int a) {
         return new Color((a << 24) + (r << 16) + (g << 8) + b, a < 255);
     }

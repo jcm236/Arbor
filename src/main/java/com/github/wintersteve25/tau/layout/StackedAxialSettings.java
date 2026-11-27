@@ -20,11 +20,11 @@ public class StackedAxialSettings<T> {
         if (axis == Axis.VERTICAL) return verticals.lastElement();
         return horizontals.lastElement();
     }
-    
+
     public Stack<T> get(Axis axis) {
         return axis == Axis.VERTICAL ? verticals : horizontals;
     }
-    
+
     public void push(Axis axis, T setting) {
         if (axis == Axis.VERTICAL) {
             verticals.push(setting);

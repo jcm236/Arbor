@@ -1,17 +1,6 @@
 package com.github.wintersteve25.tau.utils;
 
-public class Pad {
-    public final int top;
-    public final int bottom;
-    public final int left;
-    public final int right;
-
-    public Pad(int top, int bottom, int left, int right) {
-        this.top = top;
-        this.bottom = bottom;
-        this.left = left;
-        this.right = right;
-    }
+public record Pad(int top, int bottom, int left, int right) {
 
     public SimpleVec2i getSize() {
         return new SimpleVec2i(left + right, top + bottom);

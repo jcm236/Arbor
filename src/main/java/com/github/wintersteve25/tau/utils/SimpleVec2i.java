@@ -9,6 +9,18 @@ public class SimpleVec2i {
         this.y = y;
     }
 
+    public static SimpleVec2i zero() {
+        return new SimpleVec2i(0, 0);
+    }
+
+    public static boolean within(int mouseX, int mouseY, SimpleVec2i position, SimpleVec2i size) {
+        return mouseX > position.x && mouseX < position.x + size.x && mouseY > position.y && mouseY < position.y + size.y;
+    }
+
+    public static boolean within(int mouseX, int mouseY, int x, int y, int width, int height) {
+        return mouseX > x && mouseX < x + width && mouseY > y && mouseY < y + height;
+    }
+
     public void add(SimpleVec2i other) {
         this.x += other.x;
         this.y += other.y;
@@ -20,17 +32,5 @@ public class SimpleVec2i {
 
     public boolean outside(SimpleVec2i other) {
         return x > other.x || y > other.y;
-    }
-
-    public static SimpleVec2i zero() {
-        return new SimpleVec2i(0, 0);
-    }
-
-    public static boolean within(int mouseX, int mouseY, SimpleVec2i position, SimpleVec2i size) {
-        return mouseX > position.x && mouseX < position.x + size.x && mouseY > position.y && mouseY < position.y + size.y;
-    }
-
-    public static boolean within(int mouseX, int mouseY, int x, int y, int width, int height) {
-        return mouseX > x && mouseX < x + width && mouseY > y && mouseY < y + height;
     }
 }

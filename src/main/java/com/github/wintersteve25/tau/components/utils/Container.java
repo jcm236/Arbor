@@ -75,13 +75,13 @@ public final class Container implements PrimitiveUIComponent {
             return this;
         }
 
-        public Container build() {
-            return new Container(child, drawBackground, sizeBehaviour == null ? FlexSizeBehaviour.MAX : sizeBehaviour);
-        }
-
         @Override
         public UIComponent build(Layout layout, Theme theme) {
             return build();
+        }
+
+        public Container build() {
+            return new Container(child, drawBackground, sizeBehaviour == null ? FlexSizeBehaviour.MAX : sizeBehaviour);
         }
     }
 }

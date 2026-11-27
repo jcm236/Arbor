@@ -24,7 +24,7 @@ public class MinecraftTheme implements Theme {
     private static final ResourceLocation SLIDER_TEXTURE = new ResourceLocation("textures/gui/slider.png");
 
     private static final Color TEXT = new Color(0xFFE8E8E8);
-    
+
     @Override
     public void drawButton(GuiGraphics graphics, int x, int y, int width, int height, float partialTicks, int mouseX, int mouseY, InteractableState state) {
         graphics.blitWithBorder(TEXTURE, x, y, 0, 166 + state.getNumber() * 20, width, height, 200, 20, 2, 3, 2, 2);
@@ -56,6 +56,11 @@ public class MinecraftTheme implements Theme {
         graphics.blit(SLOT_TEXTURE, x, y, 0, 0, 18, 18, 18, 18);
     }
 
+    @Override
+    public Color getTextColor() {
+        return TEXT;
+    }
+
     // Copied from GuiGraphics
     private void renderTooltipInternal(GuiGraphics graphics, Font pFont, List<ClientTooltipComponent> pComponents, int pMouseX, int pMouseY, ClientTooltipPositioner pTooltipPositioner) {
         if (!pComponents.isEmpty()) {
@@ -64,7 +69,7 @@ public class MinecraftTheme implements Theme {
             int i = 0;
             int j = pComponents.size() == 1 ? -2 : 0;
 
-            for(ClientTooltipComponent clienttooltipcomponent : pComponents) {
+            for (ClientTooltipComponent clienttooltipcomponent : pComponents) {
                 int k = clienttooltipcomponent.getWidth(preEvent.getFont());
                 if (k > i) {
                     i = k;
@@ -85,7 +90,7 @@ public class MinecraftTheme implements Theme {
             graphics.pose().translate(0.0F, 0.0F, 400.0F);
             int k1 = i1;
 
-            for(int l1 = 0; l1 < pComponents.size(); ++l1) {
+            for (int l1 = 0; l1 < pComponents.size(); ++l1) {
                 ClientTooltipComponent clienttooltipcomponent1 = pComponents.get(l1);
                 clienttooltipcomponent1.renderText(preEvent.getFont(), l, k1, graphics.pose().last().pose(), graphics.bufferSource());
                 k1 += clienttooltipcomponent1.getHeight() + (l1 == 0 ? 2 : 0);
@@ -93,7 +98,7 @@ public class MinecraftTheme implements Theme {
 
             k1 = i1;
 
-            for(int k2 = 0; k2 < pComponents.size(); ++k2) {
+            for (int k2 = 0; k2 < pComponents.size(); ++k2) {
                 ClientTooltipComponent clienttooltipcomponent2 = pComponents.get(k2);
                 clienttooltipcomponent2.renderImage(preEvent.getFont(), l, k1, graphics);
                 k1 += clienttooltipcomponent2.getHeight() + (k2 == 0 ? 2 : 0);
@@ -118,10 +123,5 @@ public class MinecraftTheme implements Theme {
         if (pPosition.y + i > screenHeight) {
             pPosition.y = screenHeight - i;
         }
-    }
-
-    @Override
-    public Color getTextColor() {
-        return TEXT;
     }
 }

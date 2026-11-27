@@ -19,9 +19,8 @@ import net.minecraft.network.chat.FormattedText;
 
 public final class Text implements PrimitiveUIComponent, RenderProvider {
 
-    private static int ellipsisWidth = 0;
     private static final String ellipsisText = "...";
-
+    private static int ellipsisWidth = 0;
     private final FormattedText text;
     private final OverflowBehaviour overflowBehaviour;
     private Color color;
@@ -73,9 +72,17 @@ public final class Text implements PrimitiveUIComponent, RenderProvider {
 
         switch (overflowBehaviour) {
             case WRAP -> graphics.drawWordWrap(font, text, x, y, width, color.getAARRGGBB());
-            case ELLIPSIS -> graphics.drawString(font, font.substrByWidth(text, width - ellipsisWidth).getString() + ellipsisText, x, y, color.getAARRGGBB(), true);
+            case ELLIPSIS ->
+                    graphics.drawString(font, font.substrByWidth(text, width - ellipsisWidth).getString() + ellipsisText, x, y, color.getAARRGGBB(), true);
             default -> graphics.drawString(font, text.getString(), x, y, color.getAARRGGBB(), true);
         }
+    }
+
+    public enum OverflowBehaviour {
+        OVERFLOW,
+        WRAP,
+        CLIP,
+        ELLIPSIS
     }
 
     public static final class Builder implements UIComponent {
@@ -102,6 +109,11 @@ public final class Text implements PrimitiveUIComponent, RenderProvider {
             return this;
         }
 
+        @Override
+        public UIComponent build(Layout layout, Theme theme) {
+            return build();
+        }
+
         public Text build() {
             return new Text(
                     text,
@@ -109,17 +121,5 @@ public final class Text implements PrimitiveUIComponent, RenderProvider {
                     overflowBehaviour == null ? OverflowBehaviour.OVERFLOW : overflowBehaviour
             );
         }
-
-        @Override
-        public UIComponent build(Layout layout, Theme theme) {
-            return build();
-        }
-    }
-
-    public enum OverflowBehaviour {
-        OVERFLOW,
-        WRAP,
-        CLIP,
-        ELLIPSIS
     }
 }

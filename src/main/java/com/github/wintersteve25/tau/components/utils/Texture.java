@@ -70,15 +70,15 @@ public final class Texture implements PrimitiveUIComponent {
             return this;
         }
 
+        @Override
+        public UIComponent build(Layout layout, Theme theme) {
+            return build();
+        }
+
         public Texture build() {
             textureSize = textureSize == null ? new SimpleVec2i(256, 256) : textureSize;
             uvSize = uvSize == null ? textureSize : uvSize;
             return new Texture(textureLocation, textureSize, uv == null ? SimpleVec2i.zero() : uv, uvSize, size == null ? uvSize : size);
-        }
-
-        @Override
-        public UIComponent build(Layout layout, Theme theme) {
-            return build();
         }
     }
 }

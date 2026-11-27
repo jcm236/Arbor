@@ -16,19 +16,13 @@ public class HudUIRenderer {
     private int screenWidth;
     private int screenHeight;
 
-    public HudUIRenderer(UIComponent uiComponent, Theme theme) {
-        this.uiComponent = uiComponent;
-        this.theme = theme;
-    }
-
     public HudUIRenderer(UIComponent uiComponent) {
         this(uiComponent, MinecraftTheme.INSTANCE);
     }
 
-    private void init() {
-        Layout layout = new Layout(screenWidth, screenHeight);
-
-        ui.build(layout, this.theme, this.uiComponent);
+    public HudUIRenderer(UIComponent uiComponent, Theme theme) {
+        this.uiComponent = uiComponent;
+        this.theme = theme;
     }
 
     public void tick() {
@@ -45,6 +39,12 @@ public class HudUIRenderer {
             init();
         }
 
-        ui.render(graphics, 0,0, pPartialTicks);
+        ui.render(graphics, 0, 0, pPartialTicks);
+    }
+
+    private void init() {
+        Layout layout = new Layout(screenWidth, screenHeight);
+
+        ui.build(layout, this.theme, this.uiComponent);
     }
 }

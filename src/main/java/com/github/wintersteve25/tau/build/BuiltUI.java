@@ -19,12 +19,12 @@ public final class BuiltUI {
     private Theme theme;
     private UIComponent root;
 
-    public BuiltUI(List<GuiEventListener> listenerSink) {
-        this.context = new BuildContext(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), listenerSink, new ArrayList<>());
-    }
-
     public BuiltUI() {
         this(new ArrayList<>());
+    }
+
+    public BuiltUI(List<GuiEventListener> listenerSink) {
+        this.context = new BuildContext(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), listenerSink, new ArrayList<>());
     }
 
     public void build(Layout layout, Theme theme, UIComponent root) {
@@ -41,10 +41,14 @@ public final class BuiltUI {
         built = true;
     }
 
+    public void destroy() {
+        for (DynamicUIComponent c : context.dynamicUIComponents()) c.destroyTree();
+    }
+
     public void tick() {
         if (built && UIBuilder.rebuildAndTickDynamicUIComponents(context.dynamicUIComponents())) {
             this.layoutAll();
-        };
+        }
     }
 
     public void render(GuiGraphics g, int mx, int my, float pt) {
@@ -53,9 +57,5 @@ public final class BuiltUI {
 
     public void renderTooltips(GuiGraphics g, int mx, int my, float pt) {
         for (Renderable r : context.tooltips()) r.render(g, mx, my, pt);
-    }
-
-    public void destroy() {
-        for (DynamicUIComponent c : context.dynamicUIComponents()) c.destroyTree();
     }
 }

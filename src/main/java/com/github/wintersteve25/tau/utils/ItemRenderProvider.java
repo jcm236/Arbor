@@ -10,12 +10,12 @@ public class ItemRenderProvider implements RenderProvider {
 
     private final ItemStack itemStack;
 
-    public ItemRenderProvider(ItemStack itemStack) {
-        this.itemStack = itemStack;
-    }
-
     public ItemRenderProvider(Item item) {
         this(new ItemStack(item));
+    }
+
+    public ItemRenderProvider(ItemStack itemStack) {
+        this.itemStack = itemStack;
     }
 
     public ItemRenderProvider(Block block) {

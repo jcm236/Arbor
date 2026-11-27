@@ -33,7 +33,9 @@ public class TestDynamicNesting implements UIComponent {
         private final String label;
         private int clicks;
 
-        Counter(String label) { this.label = label; }
+        Counter(String label) {
+            this.label = label;
+        }
 
         @Override
         public UIComponent build(Layout layout, Theme theme) {
@@ -49,7 +51,13 @@ public class TestDynamicNesting implements UIComponent {
             return false; // false lets all three counters receive the click
         }
 
-        @Override public void setFocused(boolean focused) {}
-        @Override public boolean isFocused() { return false; }
+        @Override
+        public void setFocused(boolean focused) {
+        }
+
+        @Override
+        public boolean isFocused() {
+            return false;
+        }
     }
 }

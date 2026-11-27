@@ -4,10 +4,10 @@ public enum InteractableState {
     IDLE(1),
     HOVERED(2),
     DISABLED(0);
-    
-    private int number;
-    
-    private InteractableState(int number) {
+
+    private final int number;
+
+    InteractableState(int number) {
         this.number = number;
     }
 

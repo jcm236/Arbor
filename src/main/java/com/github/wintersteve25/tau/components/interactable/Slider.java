@@ -83,7 +83,7 @@ public final class Slider implements UIComponent {
                     getWidth(),
                     getHeight(),
                     partialTick,
-                    mouseX, 
+                    mouseX,
                     mouseY,
                     isHoveredOrFocused()
             );
@@ -147,7 +147,7 @@ public final class Slider implements UIComponent {
             this.onPress = onPress;
             return this;
         }
-        
+
         public Builder dontDrawString() {
             drawString = false;
             return this;
@@ -156,6 +156,11 @@ public final class Slider implements UIComponent {
         public Builder withOnValueChanged(Consumer<Double> onValueChanged) {
             this.onValueChanged = onValueChanged;
             return this;
+        }
+
+        @Override
+        public UIComponent build(Layout layout, Theme theme) {
+            return build();
         }
 
         public Slider build() {
@@ -171,11 +176,6 @@ public final class Slider implements UIComponent {
                     onValueChanged,
                     drawString
             );
-        }
-
-        @Override
-        public UIComponent build(Layout layout, Theme theme) {
-            return build();
         }
     }
 }

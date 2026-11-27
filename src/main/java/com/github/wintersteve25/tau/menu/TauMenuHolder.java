@@ -13,7 +13,6 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 public class TauMenuHolder {
@@ -30,22 +29,29 @@ public class TauMenuHolder {
         return inner.get();
     }
 
-    public UIMenu getMenu() {
-        return menu.get();
+    public void openMenu(ServerPlayer player) {
+        openMenu(player, MenuContext.NONE);
     }
 
-    public void openMenu(ServerPlayer player, BlockPos pos) {
+    public void openMenu(ServerPlayer player, MenuContext context) {
         NetworkHooks.openScreen(player, new MenuProvider() {
             @Override
             public @NotNull Component getDisplayName() {
                 return getMenu().getTitle();
             }
 
-            @Nullable
             @Override
-            public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
-                return getMenu().newMenu(TauMenuHolder.this, playerInventory, containerId, pos);
+            public AbstractContainerMenu createMenu(int id, Inventory inv, Player p) {
+                return getMenu().newMenu(TauMenuHolder.this, inv, id, context);
             }
-        }, buf -> buf.writeBlockPos(pos));
+        }, context::write);
+    }
+
+    public UIMenu getMenu() {
+        return menu.get();
+    }
+
+    public void openMenu(ServerPlayer player, BlockPos pos) {
+        openMenu(player, MenuContext.block(pos));
     }
 }

@@ -69,20 +69,20 @@ public class AnimatedTexture implements PrimitiveUIComponent {
             this.textureSize = textureSize;
             return this;
         }
-        
+
         public Builder shouldStretchToSize(boolean shouldStretchToSize) {
             this.stretchToSize = shouldStretchToSize;
             return this;
         }
 
-        public UIComponent build() {
-            textureSize = textureSize == null ? new SimpleVec2i(256, 256) : textureSize;
-            return new AnimatedTexture(textureLocation, textureSize, size, uvSize, uvPos, stretchToSize);
-        }
-
         @Override
         public UIComponent build(Layout layout, Theme theme) {
             return build();
+        }
+
+        public UIComponent build() {
+            textureSize = textureSize == null ? new SimpleVec2i(256, 256) : textureSize;
+            return new AnimatedTexture(textureLocation, textureSize, size, uvSize, uvPos, stretchToSize);
         }
     }
 }

@@ -15,6 +15,16 @@ public class Transformation {
         this.inverted = inverted;
     }
 
+    public static Transformation scale(Vector3f scale) {
+        Matrix4f matrix4f = new Matrix4f().identity().scale(scale);
+        return new Transformation(matrix4f, new Matrix4f(matrix4f).invert());
+    }
+
+    public static Transformation translate(Vector3f translation) {
+        Matrix4f matrix4f = new Matrix4f().identity().translation(translation);
+        return new Transformation(matrix4f, new Matrix4f(matrix4f).invert());
+    }
+
     public void transform(PoseStack poseStack) {
         poseStack.mulPoseMatrix(transform);
     }
@@ -34,15 +44,5 @@ public class Transformation {
         transformedPos.mulPosition(inverted);
         pos.x = transformedPos.x;
         pos.y = transformedPos.y;
-    }
-
-    public static Transformation scale(Vector3f scale) {
-        Matrix4f matrix4f = new Matrix4f().identity().scale(scale);
-        return new Transformation(matrix4f, new Matrix4f(matrix4f).invert());
-    }
-
-    public static Transformation translate(Vector3f translation) {
-        Matrix4f matrix4f = new Matrix4f().identity().translation(translation);
-        return new Transformation(matrix4f, new Matrix4f(matrix4f).invert());
     }
 }

@@ -22,10 +22,10 @@ public class ItemSlotHandler implements ISlotHandler {
     public void setupSync(TauContainerMenu menu, Inventory playerInv, int x, int y) {
         menu.addSlot(new DisablableSlot(inventory, index, x + 1, y + 1, enabled));
     }
-    
+
     private static class DisablableSlot extends SlotItemHandler {
         private final Variable<Boolean> enabled;
-        
+
         public DisablableSlot(IItemHandler itemHandler, int index, int xPosition, int yPosition, Variable<Boolean> enabled) {
             super(itemHandler, index, xPosition, yPosition);
             this.enabled = enabled;

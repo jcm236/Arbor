@@ -9,10 +9,6 @@ import java.util.ListIterator;
 
 public class StringAlignUtils extends Format {
 
-    public enum Alignment {
-        LEFT, CENTER, RIGHT,
-    }
-
     private final Alignment currentAlignment;
     private final int maxChars;
 
@@ -32,19 +28,20 @@ public class StringAlignUtils extends Format {
         this.maxChars = maxChars;
     }
 
-    public StringBuffer format(Object input, StringBuffer where, FieldPosition ignore)
-    {
+    public String format(String s) {
+        return format(s, new StringBuffer(), null).toString();
+    }
+
+    public StringBuffer format(Object input, StringBuffer where, FieldPosition ignore) {
         String s = input.toString();
         List<String> strings = splitInputString(s);
         ListIterator<String> listItr = strings.listIterator();
 
-        while (listItr.hasNext())
-        {
+        while (listItr.hasNext()) {
             String wanted = listItr.next();
 
             //Get the spaces in the right place.
-            switch (currentAlignment)
-            {
+            switch (currentAlignment) {
                 case RIGHT:
                     pad(where, maxChars - wanted.length());
                     where.append(wanted);
@@ -67,15 +64,6 @@ public class StringAlignUtils extends Format {
         return where;
     }
 
-    protected final void pad(StringBuffer to, int howMany) {
-        for (int i = 0; i < howMany; i++)
-            to.append(' ');
-    }
-
-    public String format(String s) {
-        return format(s, new StringBuffer(), null).toString();
-    }
-
     public Object parseObject(String source, ParsePosition pos) {
         return source;
     }
@@ -84,11 +72,19 @@ public class StringAlignUtils extends Format {
         List<String> list = new ArrayList<String>();
         if (str == null)
             return list;
-        for (int i = 0; i < str.length(); i = i + maxChars)
-        {
+        for (int i = 0; i < str.length(); i = i + maxChars) {
             int endindex = Math.min(i + maxChars, str.length());
             list.add(str.substring(i, endindex));
         }
         return list;
+    }
+
+    protected final void pad(StringBuffer to, int howMany) {
+        for (int i = 0; i < howMany; i++)
+            to.append(' ');
+    }
+
+    public enum Alignment {
+        LEFT, CENTER, RIGHT,
     }
 }

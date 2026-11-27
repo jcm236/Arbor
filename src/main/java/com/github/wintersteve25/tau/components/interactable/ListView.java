@@ -86,16 +86,6 @@ public final class ListView extends DynamicUIComponent implements PrimitiveUICom
         return SimpleVec2i.within((int) pMouseX, (int) pMouseY, position, size);
     }
 
-    @Override
-    public void setFocused(boolean pFocused) {
-        focus = pFocused;
-    }
-
-    @Override
-    public boolean isFocused() {
-        return focus;
-    }
-
     private int clamp(int x, int min, int max) {
         if (x < min) {
             return min;
@@ -128,5 +118,17 @@ public final class ListView extends DynamicUIComponent implements PrimitiveUICom
         public ListView build(List<UIComponent> children) {
             return new ListView(children, childrenAlignment == null ? LayoutSetting.CENTER : childrenAlignment, spacing);
         }
+    }    @Override
+    public void setFocused(boolean pFocused) {
+        focus = pFocused;
     }
+
+
+
+    @Override
+    public boolean isFocused() {
+        return focus;
+    }
+
+
 }

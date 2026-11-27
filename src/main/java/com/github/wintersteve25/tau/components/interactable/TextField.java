@@ -90,13 +90,13 @@ public final class TextField implements UIComponent {
             return this;
         }
 
-        public TextField build() {
-            return new TextField(message == null ? Component.empty() : message, onChange, validator, hintText, formatter);
-        }
-
         @Override
         public UIComponent build(Layout layout, Theme theme) {
             return build();
+        }
+
+        public TextField build() {
+            return new TextField(message == null ? Component.empty() : message, onChange, validator, hintText, formatter);
         }
     }
 }

@@ -12,9 +12,9 @@ import java.util.List;
 
 public class UIBuilder {
     /**
-     * @param layout The layout of this ui component. Used to position children components
+     * @param layout      The layout of this ui component. Used to position children components
      * @param uiComponent The ui component to build into a list of renderables
-     * @param context A build context containing the underlying renderables and such
+     * @param context     A build context containing the underlying renderables and such
      * @return The size of the component
      */
     public static SimpleVec2i build(Layout layout, Theme theme, UIComponent uiComponent, BuildContext context) {
@@ -47,6 +47,7 @@ public class UIBuilder {
 
     /**
      * Rebuilds all dynamic components that requires rebuilding
+     *
      * @param dynamicUIComponents All dynamic components
      * @return Whether relayout is needed (something changed size
      */

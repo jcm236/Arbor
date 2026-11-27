@@ -40,20 +40,16 @@ public class Layout {
         this.layoutSettings = layoutSettings;
     }
 
+    public SimpleVec2i getSize() {
+        return new SimpleVec2i(getWidth(), getHeight());
+    }
+
     public int getWidth() {
         return width + sizeModification.getLast(Axis.HORIZONTAL);
     }
 
     public int getHeight() {
         return height + sizeModification.getLast(Axis.VERTICAL);
-    }
-
-    public SimpleVec2i getSize() {
-        return new SimpleVec2i(getWidth(), getHeight());
-    }
-
-    public LayoutSetting getLayoutSetting(Axis axis) {
-        return layoutSettings.getLast(axis);
     }
 
     public void pushLayoutSetting(Axis axis, LayoutSetting layoutSetting) {
@@ -80,12 +76,12 @@ public class Layout {
         sizeModification.pop(axis);
     }
 
-    public int getPosition(Axis axis, int length) {
-        return getOffset(axis) + getLayoutSetting(axis).place(getMaximumLength(axis), length);
-    }
-
     public SimpleVec2i getPosition(SimpleVec2i size) {
         return new SimpleVec2i(getPosition(Axis.HORIZONTAL, size.x), getPosition(Axis.VERTICAL, size.y));
+    }
+
+    public int getPosition(Axis axis, int length) {
+        return getOffset(axis) + getLayoutSetting(axis).place(getMaximumLength(axis), length);
     }
 
     public int getOffset(Axis axis) {
@@ -96,6 +92,10 @@ public class Layout {
         }
 
         return result;
+    }
+
+    public LayoutSetting getLayoutSetting(Axis axis) {
+        return layoutSettings.getLast(axis);
     }
 
     public int getMaximumLength(Axis axis) {

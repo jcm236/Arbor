@@ -2,6 +2,7 @@ package com.github.wintersteve25.tau.menu;
 
 import com.github.wintersteve25.tau.Tau;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -21,18 +22,22 @@ import java.util.function.Supplier;
 public class TauContainerMenu extends AbstractContainerMenu {
 
     public final Level level;
-    public final BlockPos pos;
+    public final MenuContext context;
 
     private final Map<String, IndexedDataSlot> dataSlots;
     private final UIMenu menu;
 
-    public TauContainerMenu(TauMenuHolder holder, Inventory playerInventory, int pContainerId, BlockPos pos) {
+    public TauContainerMenu(TauMenuHolder holder, Inventory playerInventory, int pContainerId, MenuContext context) {
         super(holder.get(), pContainerId);
 
         this.level = playerInventory.player.level();
-        this.pos = pos;
+        this.context = context;
         this.dataSlots = new HashMap<>();
         this.menu = holder.getMenu();
+    }
+
+    public @NotNull Slot addSlot(@NotNull Slot pSlot) {
+        return super.addSlot(pSlot);
     }
 
     @Override
@@ -45,20 +50,11 @@ public class TauContainerMenu extends AbstractContainerMenu {
         return menu.stillValid(this, pPlayer);
     }
 
-    public @NotNull Slot addSlot(@NotNull Slot pSlot) {
-        return super.addSlot(pSlot);
+    @Override
+    public boolean moveItemStackTo(ItemStack stack, int startIndex, int endIndex, boolean reverseDirection) {
+        return super.moveItemStackTo(stack, startIndex, endIndex, reverseDirection);
     }
 
-    public void addDataSlot(String name, DataSlot slot) {
-        if (dataSlots.containsKey(name)) {
-            Tau.LOGGER.error("Duplicated data slot key: " + name);
-            return;
-        }
-
-        dataSlots.put(name, new IndexedDataSlot(dataSlots.size(), slot));
-        addDataSlot(slot);
-    }
-    
     public void addDataSlot(String name, Supplier<Integer> getter, Consumer<Integer> setter) {
         addDataSlot(name, new DataSlot() {
             @Override
@@ -73,6 +69,16 @@ public class TauContainerMenu extends AbstractContainerMenu {
         });
     }
 
+    public void addDataSlot(String name, DataSlot slot) {
+        if (dataSlots.containsKey(name)) {
+            Tau.LOGGER.error("Duplicated data slot key: " + name);
+            return;
+        }
+
+        dataSlots.put(name, new IndexedDataSlot(dataSlots.size(), slot));
+        addDataSlot(slot);
+    }
+
     public Optional<Supplier<Integer>> getGetterForDataSlot(String name) {
         if (!dataSlots.containsKey(name)) {
             Tau.LOGGER.error("Unknown data slot key: " + name);
@@ -82,23 +88,21 @@ public class TauContainerMenu extends AbstractContainerMenu {
         return Optional.of(dataSlots.get(name).dataSlot()::get);
     }
 
-    @Override
-    public boolean moveItemStackTo(ItemStack stack, int startIndex, int endIndex, boolean reverseDirection) {
-        return super.moveItemStackTo(stack, startIndex, endIndex, reverseDirection);
-    }
-    
-    public BlockEntity getBlockEntity() {
-        return level.getBlockEntity(pos);
+    public <T extends BlockEntity> Optional<T> getBlockEntity(Class<T> type) {
+        return getBlockPos().map(level::getBlockEntity).filter(type::isInstance).map(type::cast);
     }
 
-    public <T extends BlockEntity> Optional<T> getBlockEntity(Class<T> t) {
-        BlockEntity e = level.getBlockEntity(pos);
-        if (t.isInstance(e)) {
-            return Optional.of(t.cast(e));
+    public Optional<BlockPos> getBlockPos() {
+        return context instanceof MenuContext.Block b ? Optional.of(b.pos()) : Optional.empty();
+    }
+
+    public Optional<Entity> getEntity() {
+        if (context instanceof MenuContext.EntityTarget e) {
+            return Optional.ofNullable(level.getEntity(e.entityId()));
         }
-        
         return Optional.empty();
     }
 
-    private record IndexedDataSlot(int index, DataSlot dataSlot) {}
+    private record IndexedDataSlot(int index, DataSlot dataSlot) {
+    }
 }

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public final class Stack implements PrimitiveUIComponent {
     private final Iterable<UIComponent> children;
-    private FlexSizeBehaviour sizeBehaviour;
+    private final FlexSizeBehaviour sizeBehaviour;
 
     public Stack(FlexSizeBehaviour sizeBehaviour, Iterable<UIComponent> children) {
         this.sizeBehaviour = sizeBehaviour;
@@ -35,37 +35,37 @@ public final class Stack implements PrimitiveUIComponent {
 
             return layout.getSize();
         }
-        
+
         BuildContext childContext = new BuildContext();
         SimpleVec2i size = SimpleVec2i.zero();
-        
+
         for (UIComponent child : children) {
             SimpleVec2i cSize = UIBuilder.build(layout, theme, child, childContext);
             if (cSize.x > size.x) {
                 size.x = cSize.x;
             }
-            
+
             if (cSize.y > size.y) {
                 size.y = cSize.y;
             }
         }
-        
+
         context.addAll(childContext);
         return size;
     }
-    
+
     public static class Builder {
         private Iterable<UIComponent> children;
         private FlexSizeBehaviour sizeBehaviour;
-        
+
         public Builder() {
         }
-        
+
         public Builder withSizeBehaviour(FlexSizeBehaviour sizeBehaviour) {
             this.sizeBehaviour = sizeBehaviour;
             return this;
         }
-        
+
         public Stack build(UIComponent... children) {
             return new Stack(sizeBehaviour == null ? FlexSizeBehaviour.MAX : sizeBehaviour, children);
         }

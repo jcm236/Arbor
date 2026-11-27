@@ -19,6 +19,14 @@ public class ScreenUIRenderer extends Screen {
     private final boolean renderBackground;
     private final Theme theme;
 
+    public ScreenUIRenderer(UIComponent uiComponent) {
+        this(uiComponent, true);
+    }
+
+    public ScreenUIRenderer(UIComponent uiComponent, boolean renderBackground) {
+        this(uiComponent, renderBackground, MinecraftTheme.INSTANCE);
+    }
+
     public ScreenUIRenderer(UIComponent uiComponent, boolean renderBackground, Theme theme) {
         super(Component.empty());
         this.uiComponent = uiComponent;
@@ -26,12 +34,15 @@ public class ScreenUIRenderer extends Screen {
         this.theme = theme;
     }
 
-    public ScreenUIRenderer(UIComponent uiComponent, boolean renderBackground) {
-        this(uiComponent, renderBackground, MinecraftTheme.INSTANCE);
-    }
+    @Override
+    public void render(GuiGraphics graphics, int pMouseX, int pMouseY, float pPartialTicks) {
+        if (renderBackground) {
+            this.renderBackground(graphics);
+        }
 
-    public ScreenUIRenderer(UIComponent uiComponent) {
-        this(uiComponent, true);
+        ui.render(graphics, pMouseX, pMouseY, pPartialTicks);
+
+        ui.renderTooltips(graphics, pMouseX, pMouseY, pPartialTicks);
     }
 
     @Override
@@ -48,16 +59,5 @@ public class ScreenUIRenderer extends Screen {
     public void removed() {
         ui.destroy();
         super.removed();
-    }
-
-    @Override
-    public void render(GuiGraphics graphics, int pMouseX, int pMouseY, float pPartialTicks) {
-        if (renderBackground) {
-            this.renderBackground(graphics);
-        }
-
-        ui.render(graphics, pMouseX, pMouseY, pPartialTicks);
-
-        ui.renderTooltips(graphics, pMouseX, pMouseY, pPartialTicks);
     }
 }

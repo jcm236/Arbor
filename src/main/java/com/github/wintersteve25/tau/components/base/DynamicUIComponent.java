@@ -29,8 +29,11 @@ public abstract class DynamicUIComponent implements UIComponent {
     private boolean dirty;
     private SimpleVec2i lastSize = SimpleVec2i.zero();
 
-    public void tick() {}
-    public void destroy() {}
+    public void tick() {
+    }
+
+    public void destroy() {
+    }
 
     protected final void rebuild() {
         dirty = true;
@@ -47,8 +50,12 @@ public abstract class DynamicUIComponent implements UIComponent {
 
         if (this instanceof GuiEventListener self) parent.eventListeners().add(self);
         parent.eventListeners().add(listeners);
-        parent.renderables().add((g, mx, my, pt) -> { for (Renderable r : own.renderables()) r.render(g, mx, my, pt); });
-        parent.tooltips().add((g, mx, my, pt) -> { for (Renderable r : own.tooltips()) r.render(g, mx, my, pt); });
+        parent.renderables().add((g, mx, my, pt) -> {
+            for (Renderable r : own.renderables()) r.render(g, mx, my, pt);
+        });
+        parent.tooltips().add((g, mx, my, pt) -> {
+            for (Renderable r : own.tooltips()) r.render(g, mx, my, pt);
+        });
         parent.dynamicUIComponents().add(this);
         parent.slots().addAll(own.slots()); // container slots are fixed once the menu opens
         return size;

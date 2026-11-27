@@ -6,8 +6,6 @@ import com.github.wintersteve25.tau.Tau;
 public interface Size {
     Size ZERO = (s) -> SimpleVec2i.zero();
 
-    SimpleVec2i get(SimpleVec2i maxSize);
-
     static Size percentage(float percentage) {
         if (percentage < 0 || percentage > 1) {
             Tau.LOGGER.error("Size percentage can not be less than 0 or greater than 1");
@@ -34,4 +32,6 @@ public interface Size {
         SimpleVec2i size = new SimpleVec2i(width, height);
         return s -> size;
     }
+
+    SimpleVec2i get(SimpleVec2i maxSize);
 }

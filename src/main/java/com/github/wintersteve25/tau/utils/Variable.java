@@ -6,11 +6,11 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class Variable<T> {
-    
+
+    private final List<Consumer<T>> listeners;
     private T value;
     private boolean changedSince;
-    private final List<Consumer<T>> listeners;
-    
+
     public Variable(T initial) {
         this.value = initial;
         listeners = new ArrayList<>();
@@ -26,7 +26,7 @@ public class Variable<T> {
         if (this.value == null && value == null) {
             return;
         }
-        
+
         if (this.value != null) {
             if (this.value == value) return;
             if (this.value.equals(value)) return;
@@ -39,26 +39,26 @@ public class Variable<T> {
             listener.accept(value);
         }
     }
-    
-    public void addListener(Consumer<T> listener) {
-        listeners.add(listener);
-    }
-    
+
     public void removeListener(Consumer<T> listener) {
         listeners.remove(listener);
     }
-    
+
     public boolean hasChangedSinceLastGet() {
         return changedSince;
     }
-    
+
     public Variable<T> map(Function<T, T> mapper) {
         Variable<T> variable = new Variable<>(mapper.apply(value));
-        
+
         this.addListener(v -> {
             variable.setValue(mapper.apply(v));
         });
-        
+
         return variable;
+    }
+
+    public void addListener(Consumer<T> listener) {
+        listeners.add(listener);
     }
 }

@@ -31,7 +31,7 @@ public class TauTest {
     private static void registerCommands(RegisterCommandsEvent event) {
         event.getDispatcher().register(Commands.literal("tautest").then(Commands.literal("menu").executes(ctx -> {
             ServerPlayer player = ctx.getSource().getPlayerOrException();
-            TEST_MENU.openMenu(player, player.blockPosition());
+            TEST_MENU.openMenu(player);
             return 1;
         })));
     }

@@ -85,27 +85,6 @@ public final class Transform implements PrimitiveUIComponent, ContainerEventHand
     }
 
     @Override
-    public boolean isDragging() {
-        return dragging;
-    }
-
-    @Override
-    public void setDragging(boolean pIsDragging) {
-        dragging = pIsDragging;
-    }
-
-    @Nullable
-    @Override
-    public GuiEventListener getFocused() {
-        return focused;
-    }
-
-    @Override
-    public void setFocused(@Nullable GuiEventListener pFocused) {
-        focused = pFocused;
-    }
-
-    @Override
     public Optional<GuiEventListener> getChildAt(double pMouseX, double pMouseY) {
         Vector2d mousePos = new Vector2d(pMouseX, pMouseY);
 
@@ -150,6 +129,16 @@ public final class Transform implements PrimitiveUIComponent, ContainerEventHand
     }
 
     @Override
+    public boolean isDragging() {
+        return dragging;
+    }
+
+    @Override
+    public void setDragging(boolean pIsDragging) {
+        dragging = pIsDragging;
+    }
+
+    @Override
     public boolean mouseScrolled(double pMouseX, double pMouseY, double scroll) {
         Vector2d mousePos = new Vector2d(pMouseX, pMouseY);
 
@@ -158,5 +147,16 @@ public final class Transform implements PrimitiveUIComponent, ContainerEventHand
         }
 
         return ContainerEventHandler.super.mouseScrolled(mousePos.x, mousePos.y, scroll);
+    }
+
+    @Nullable
+    @Override
+    public GuiEventListener getFocused() {
+        return focused;
+    }
+
+    @Override
+    public void setFocused(@Nullable GuiEventListener pFocused) {
+        focused = pFocused;
     }
 }
