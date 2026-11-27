@@ -3,11 +3,12 @@ package com.github.wintersteve25.tau.menu;
 import com.github.wintersteve25.tau.build.BuildContext;
 import com.github.wintersteve25.tau.build.UIBuilder;
 import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
+import com.github.wintersteve25.tau.layout.Axis;
 import com.github.wintersteve25.tau.layout.Layout;
 import com.github.wintersteve25.tau.theme.Theme;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.client.gui.components.events.ContainerEventHandler;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
@@ -17,7 +18,7 @@ import net.minecraft.world.entity.player.Inventory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TauContainerUI extends AbstractContainerScreen<TauContainerMenu> implements MenuAccess<TauContainerMenu> {
+public class TauContainerScreen extends AbstractContainerScreen<TauContainerMenu> implements MenuAccess<TauContainerMenu> {
 
     private final UIMenu uiMenu;
     private final List<Renderable> components;
@@ -29,8 +30,8 @@ public class TauContainerUI extends AbstractContainerScreen<TauContainerMenu> im
 
     private boolean built;
 
-    public TauContainerUI(TauContainerMenu pMenu, Inventory pPlayerInventory, UIMenu uiMenu, boolean renderBackground, Theme theme) {
-        super(pMenu, pPlayerInventory, Component.empty());
+    public TauContainerScreen(TauContainerMenu pMenu, Inventory pPlayerInventory, UIMenu uiMenu, boolean renderBackground, Theme theme, Component title) {
+        super(pMenu, pPlayerInventory, title);
         this.uiMenu = uiMenu;
         this.renderBackground = renderBackground;
         this.theme = theme;
@@ -45,43 +46,51 @@ public class TauContainerUI extends AbstractContainerScreen<TauContainerMenu> im
         leftPos = uiMenu.getLeftPos(layout, width, height);
         topPos = uiMenu.getTopPos(layout, width, height);
 
+        layout.pushOffset(Axis.HORIZONTAL, leftPos);
+        layout.pushOffset(Axis.VERTICAL, topPos);
+
         components.clear();
         tooltips.clear();
         dynamicUIComponents.clear();
+        children().clear();
 
         UIBuilder.build(layout, theme, uiMenu.build(layout, theme, getMenu()), new BuildContext(components, tooltips, dynamicUIComponents, (List<GuiEventListener>) children(), new ArrayList<>()));
+
+        layout.popOffset(Axis.HORIZONTAL);
+        layout.popOffset(Axis.VERTICAL);
 
         built = true;
     }
 
     @Override
-    public void render(GuiGraphics graphics, int pMouseX, int pMouseY, float pPartialTicks) {
+    protected void renderBg(GuiGraphics graphics, float pPartialTick, int pMouseX, int pMouseY) {
         if (renderBackground) {
             this.renderBackground(graphics);
         }
 
-        PoseStack poseStack = graphics.pose();
-        poseStack.pushPose();
-        poseStack.translate(leftPos, topPos, 0);
-
         for (Renderable component : components) {
-            component.render(graphics, pMouseX, pMouseY, pPartialTicks);
+            component.render(graphics, pMouseX, pMouseY, pPartialTick);
         }
-
-        for (Renderable tooltip : tooltips) {
-            tooltip.render(graphics, pMouseX, pMouseY, pPartialTicks);
-        }
-
-        poseStack.popPose();
     }
 
     @Override
-    protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.render(guiGraphics, mouseX, mouseY, partialTick);
+        renderTooltip(guiGraphics, mouseX, mouseY);
+
+        for (Renderable tooltip : tooltips) {
+            tooltip.render(guiGraphics, mouseX, mouseY, partialTick);
+        }
+    }
+
+    @Override
+    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
     }
 
     @Override
     public void containerTick() {
         if (!built) return;
+        if (uiMenu.isNeedsRebuild()) init();
         UIBuilder.rebuildAndTickDynamicUIComponents(dynamicUIComponents);
         uiMenu.tick(menu);
     }
@@ -92,6 +101,22 @@ public class TauContainerUI extends AbstractContainerScreen<TauContainerMenu> im
             dynamicUIComponent.destroy();
         }
 
+        uiMenu.onClose();
         super.onClose();
+    }
+
+    @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+        if (childDrag(mouseX, mouseY, button, dragX, dragY)) {
+            return true;
+        }
+
+        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+    }
+
+    private boolean childDrag(double mouseX, double mouseY, int button, double dragX, double dragY) {
+        return this.getFocused() != null && this.isDragging() && button == 0
+                ? this.getFocused().mouseDragged(mouseX, mouseY, button, dragX, dragY)
+                : false;
     }
 }
