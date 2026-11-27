@@ -14,6 +14,7 @@ import java.util.List;
 public class TauMenuHelper {
     public static void registerMenuScreen(FMLClientSetupEvent event, TauMenuHolder holder) {
         event.enqueueWork(() -> MenuScreens.register(holder.get(),
+                (MenuScreens.ScreenConstructor<TauContainerMenu, TauContainerScreen>)
                 (menu, inv, title) -> holder.getMenu().createScreen(menu, inv, title)));
     }
     
