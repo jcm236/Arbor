@@ -5,8 +5,6 @@ import com.github.wintersteve25.tau.utils.Variable;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.SlotItemHandler;
 
 public class PlayerInventoryHandler implements ISlotHandler {
     

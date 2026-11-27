@@ -2,20 +2,19 @@ package com.github.wintersteve25.tau.components.utils;
 
 import com.github.wintersteve25.tau.build.BuildContext;
 import com.github.wintersteve25.tau.build.UIBuilder;
+import com.github.wintersteve25.tau.components.base.PrimitiveUIComponent;
+import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.components.render.Render;
+import com.github.wintersteve25.tau.layout.Axis;
+import com.github.wintersteve25.tau.layout.Layout;
 import com.github.wintersteve25.tau.theme.Theme;
+import com.github.wintersteve25.tau.utils.Color;
 import com.github.wintersteve25.tau.utils.RenderProvider;
-
+import com.github.wintersteve25.tau.utils.SimpleVec2i;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import com.github.wintersteve25.tau.components.base.PrimitiveUIComponent;
-import com.github.wintersteve25.tau.components.base.UIComponent;
-import com.github.wintersteve25.tau.utils.Color;
-import com.github.wintersteve25.tau.layout.Axis;
-import com.github.wintersteve25.tau.layout.Layout;
-import com.github.wintersteve25.tau.utils.SimpleVec2i;
 import net.minecraft.network.chat.FormattedText;
 
 public final class Text implements PrimitiveUIComponent, RenderProvider {

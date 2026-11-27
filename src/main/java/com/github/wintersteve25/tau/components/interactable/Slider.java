@@ -9,9 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
-
 import net.minecraftforge.client.gui.widget.ForgeSlider;
-
 
 import java.util.function.Consumer;
 
@@ -47,7 +45,7 @@ public final class Slider implements UIComponent {
         return new WidgetWrapper(new SliderWidget(prefix, suffix, stepSize, decimalPlaces, minimum, maximum, value, onPress, onValueChanged, theme, drawString));
     }
 
-    private static final class SliderWidget extends ExtendedSlider {
+    private static final class SliderWidget extends ForgeSlider {
         private final Runnable onPress;
         private final Consumer<Double> onValueChange;
         private final Theme theme;
@@ -78,8 +76,6 @@ public final class Slider implements UIComponent {
             RenderSystem.defaultBlendFunc();
             RenderSystem.enableDepthTest();
             theme.drawSlider(
-                    this.getSprite(),
-                    this.getHandleSprite(),
                     value,
                     guiGraphics,
                     getX(),

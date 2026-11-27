@@ -1,18 +1,18 @@
 package com.github.wintersteve25.tau.components.render;
 
 import com.github.wintersteve25.tau.build.BuildContext;
-import com.github.wintersteve25.tau.menu.MenuSlot;
-import com.github.wintersteve25.tau.theme.Theme;
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.gui.components.events.ContainerEventHandler;
-import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.client.gui.components.Renderable;
+import com.github.wintersteve25.tau.build.UIBuilder;
 import com.github.wintersteve25.tau.components.base.PrimitiveUIComponent;
 import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.layout.Layout;
-import com.github.wintersteve25.tau.build.UIBuilder;
+import com.github.wintersteve25.tau.menu.MenuSlot;
+import com.github.wintersteve25.tau.theme.Theme;
 import com.github.wintersteve25.tau.utils.SimpleVec2i;
 import com.github.wintersteve25.tau.utils.Transformation;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.client.gui.components.events.ContainerEventHandler;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2d;
 

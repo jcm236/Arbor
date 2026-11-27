@@ -56,3 +56,9 @@
 ## Internal Changes
 - Removed label renders in `TauContainerScreen`
 - When creating the container on the server side, it no longer builds the UI, instead calls the getSlots function to create the slots 
+
+# v2.1.1 Forge-1.20.1
+
+**Backported v2.1.0 neoforge-1.20.6** 
+## Additional Bugfixes
+ - quickMoveStack returns ItemStack.EMPTY by default.

@@ -1,9 +1,9 @@
 package com.github.wintersteve25.tau.tests;
 
 import com.github.wintersteve25.tau.components.base.UIComponent;
+import com.github.wintersteve25.tau.components.interactable.Button;
 import com.github.wintersteve25.tau.components.layout.Center;
 import com.github.wintersteve25.tau.components.layout.Row;
-import com.github.wintersteve25.tau.components.interactable.Button;
 import com.github.wintersteve25.tau.components.utils.Sized;
 import com.github.wintersteve25.tau.components.utils.Text;
 import com.github.wintersteve25.tau.layout.Layout;

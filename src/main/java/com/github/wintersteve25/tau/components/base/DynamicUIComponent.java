@@ -1,12 +1,12 @@
 package com.github.wintersteve25.tau.components.base;
 
 import com.github.wintersteve25.tau.build.BuildContext;
+import com.github.wintersteve25.tau.build.UIBuilder;
+import com.github.wintersteve25.tau.layout.Layout;
 import com.github.wintersteve25.tau.menu.MenuSlot;
 import com.github.wintersteve25.tau.theme.Theme;
-import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.components.Renderable;
-import com.github.wintersteve25.tau.layout.Layout;
-import com.github.wintersteve25.tau.build.UIBuilder;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 
 import java.util.ArrayList;
 import java.util.List;

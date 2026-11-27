@@ -6,21 +6,15 @@ import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.layout.Layout;
 import com.github.wintersteve25.tau.theme.Theme;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Inventory;
-import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TauMenuHelper {
-    public static void registerMenuScreen(RegisterMenuScreensEvent event, TauMenuHolder holder) {
-        event.register(holder.get(), new MenuScreens.ScreenConstructor<TauContainerMenu, TauContainerScreen>() {
-            @Override
-            public TauContainerScreen create(TauContainerMenu pMenu, Inventory pInventory, Component pTitle) {
-                return holder.getMenu().createScreen(pMenu, pInventory, pTitle);
-            }
-        });
+    public static void registerMenuScreen(FMLClientSetupEvent event, TauMenuHolder holder) {
+        event.enqueueWork(() -> MenuScreens.register(holder.get(),
+                (menu, inv, title) -> holder.getMenu().createScreen(menu, inv, title)));
     }
     
     public static List<MenuSlot<?>> buildContainerOnClient(UIMenu uiMenu, Layout layout, Theme theme, TauContainerMenu menu) {

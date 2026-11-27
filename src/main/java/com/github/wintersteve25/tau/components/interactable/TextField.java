@@ -1,12 +1,12 @@
 package com.github.wintersteve25.tau.components.interactable;
 
+import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.components.utils.WidgetWrapper;
+import com.github.wintersteve25.tau.layout.Layout;
 import com.github.wintersteve25.tau.theme.Theme;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
-import com.github.wintersteve25.tau.components.base.UIComponent;
-import com.github.wintersteve25.tau.layout.Layout;
 
 import java.util.function.BiFunction;
 import java.util.function.Consumer;

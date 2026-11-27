@@ -1,12 +1,12 @@
 package com.github.wintersteve25.tau.components.utils;
 
 import com.github.wintersteve25.tau.build.BuildContext;
-import com.github.wintersteve25.tau.theme.Theme;
-import net.minecraft.client.gui.components.AbstractWidget;
 import com.github.wintersteve25.tau.components.base.PrimitiveUIComponent;
 import com.github.wintersteve25.tau.layout.Axis;
 import com.github.wintersteve25.tau.layout.Layout;
+import com.github.wintersteve25.tau.theme.Theme;
 import com.github.wintersteve25.tau.utils.SimpleVec2i;
+import net.minecraft.client.gui.components.AbstractWidget;
 
 public final class WidgetWrapper implements PrimitiveUIComponent {
 

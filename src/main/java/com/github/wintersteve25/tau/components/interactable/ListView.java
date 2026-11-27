@@ -14,11 +14,9 @@ import com.github.wintersteve25.tau.theme.Theme;
 import com.github.wintersteve25.tau.utils.FlexSizeBehaviour;
 import com.github.wintersteve25.tau.utils.SimpleVec2i;
 import com.github.wintersteve25.tau.utils.Transformation;
-import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import org.joml.Vector3f;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

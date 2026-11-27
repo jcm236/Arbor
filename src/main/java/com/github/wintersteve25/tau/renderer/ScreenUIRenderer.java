@@ -1,6 +1,10 @@
 package com.github.wintersteve25.tau.renderer;
 
 import com.github.wintersteve25.tau.build.BuildContext;
+import com.github.wintersteve25.tau.build.UIBuilder;
+import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
+import com.github.wintersteve25.tau.components.base.UIComponent;
+import com.github.wintersteve25.tau.layout.Layout;
 import com.github.wintersteve25.tau.theme.MinecraftTheme;
 import com.github.wintersteve25.tau.theme.Theme;
 import net.minecraft.client.gui.GuiGraphics;
@@ -8,10 +12,6 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
-import com.github.wintersteve25.tau.build.UIBuilder;
-import com.github.wintersteve25.tau.components.base.UIComponent;
-import com.github.wintersteve25.tau.layout.Layout;
 
 import java.util.ArrayList;
 import java.util.List;

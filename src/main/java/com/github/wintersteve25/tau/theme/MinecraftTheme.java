@@ -21,6 +21,8 @@ public class MinecraftTheme implements Theme {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(Tau.MOD_ID, "textures/gui/container.png");
     private static final ResourceLocation SLOT_TEXTURE = new ResourceLocation(Tau.MOD_ID, "textures/gui/slot.png");
+    private static final ResourceLocation SLIDER_TEXTURE = new ResourceLocation("textures/gui/slider.png");
+
     private static final Color TEXT = new Color(0xFFE8E8E8);
     
     @Override
@@ -38,9 +40,10 @@ public class MinecraftTheme implements Theme {
     }
 
     @Override
-    public void drawSlider(ResourceLocation defaultBackground, ResourceLocation defaultHandle, double sliderValue, GuiGraphics graphics, int x, int y, int width, int height, float partialTicks, int mouseX, int mouseY, boolean hoveredOrFocused) {
-        graphics.blitSprite(defaultBackground, x, y, width, height);
-        graphics.blitSprite(defaultHandle, x + (int) (sliderValue * (double) (width - 8)), y, 8, height);
+    public void drawSlider(double sliderValue, GuiGraphics graphics, int x, int y, int width, int height, float partialTicks, int mouseX, int mouseY, boolean hoveredOrFocused) {
+        graphics.blitNineSliced(SLIDER_TEXTURE, x, y, width, height, 20, 4, 200, 20, 0, 0);
+        graphics.blitNineSliced(SLIDER_TEXTURE, x + (int) (sliderValue * (width - 8)), y, 8, height,
+                20, 4, 200, 20, 0, hoveredOrFocused ? 60 : 40);
     }
 
     @Override
