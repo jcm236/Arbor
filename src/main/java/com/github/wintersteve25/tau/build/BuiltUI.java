@@ -15,6 +15,10 @@ public final class BuiltUI {
     private final BuildContext context;
     private boolean built;
 
+    private Layout layout;
+    private Theme theme;
+    private UIComponent root;
+
     public BuiltUI(List<GuiEventListener> listenerSink) {
         this.context = new BuildContext(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), listenerSink, new ArrayList<>());
     }
@@ -24,14 +28,23 @@ public final class BuiltUI {
     }
 
     public void build(Layout layout, Theme theme, UIComponent root) {
+        this.layout = layout.copy();
+        this.theme = theme;
+        this.root = root;
+        layoutAll();
+    }
+
+    private void layoutAll() {
         destroy();
         context.clear();
-        UIBuilder.build(layout, theme, root, context);
+        UIBuilder.build(layout.copy(), theme, root, context);
         built = true;
     }
 
     public void tick() {
-        if (built) UIBuilder.rebuildAndTickDynamicUIComponents(context.dynamicUIComponents());
+        if (built && UIBuilder.rebuildAndTickDynamicUIComponents(context.dynamicUIComponents())) {
+            this.layoutAll();
+        };
     }
 
     public void render(GuiGraphics g, int mx, int my, float pt) {

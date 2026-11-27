@@ -23,9 +23,11 @@ public abstract class DynamicUIComponent implements UIComponent {
             return own.eventListeners();
         }
     };
+
     private Layout layout;
     private Theme theme;
     private boolean dirty;
+    private SimpleVec2i lastSize = SimpleVec2i.zero();
 
     public void tick() {}
     public void destroy() {}
@@ -41,6 +43,7 @@ public abstract class DynamicUIComponent implements UIComponent {
         this.layout = layout.copy();
         this.theme = theme;
         SimpleVec2i size = buildContent();
+        lastSize = new SimpleVec2i(size.x, size.y);
 
         if (this instanceof GuiEventListener self) parent.eventListeners().add(self);
         parent.eventListeners().add(listeners);
@@ -51,17 +54,26 @@ public abstract class DynamicUIComponent implements UIComponent {
         return size;
     }
 
-    public final void tickTree() {
+    public final boolean tickTree() {
         tick();
-        for (DynamicUIComponent child : List.copyOf(own.dynamicUIComponents())) child.tickTree();
+        boolean relayout = false;
+        for (DynamicUIComponent child : List.copyOf(own.dynamicUIComponents())) {
+            relayout |= child.tickTree();
+        }
         if (dirty) {
             dirty = false;
-            buildContent();
+            SimpleVec2i size = buildContent();
+            if (size.x != lastSize.x || size.y != lastSize.y) {
+                relayout = true;
+            }
+            lastSize = new SimpleVec2i(size.x, size.y);
         }
+        return relayout;
     }
 
     public final void destroyTree() {
         for (DynamicUIComponent child : own.dynamicUIComponents()) child.destroyTree();
+        own.clear();
         destroy();
     }
 

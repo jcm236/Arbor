@@ -48,8 +48,13 @@ public class UIBuilder {
     /**
      * Rebuilds all dynamic components that requires rebuilding
      * @param dynamicUIComponents All dynamic components
+     * @return Whether relayout is needed (something changed size
      */
-    public static void rebuildAndTickDynamicUIComponents(List<DynamicUIComponent> dynamicUIComponents) {
-        for (DynamicUIComponent component : List.copyOf(dynamicUIComponents)) component.tickTree();
+    public static boolean rebuildAndTickDynamicUIComponents(List<DynamicUIComponent> dynamicUIComponents) {
+        boolean relayout = false;
+        for (DynamicUIComponent component : List.copyOf(dynamicUIComponents)) {
+            relayout |= component.tickTree();
+        }
+        return relayout;
     }
 }
