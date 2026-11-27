@@ -6,7 +6,7 @@ Thumbs.db
 /build
 
 ## ForgeGradle
-/run
+run/*
 
 ## eclipse
 /.settings

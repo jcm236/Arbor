@@ -38,6 +38,9 @@ public class UIBuilder {
 
         UIComponent next = uiComponent.build(layout, theme);
 
+        if (next == null) {
+            return size;
+        }
 
         return build(layout, theme, next, context, size);
     }

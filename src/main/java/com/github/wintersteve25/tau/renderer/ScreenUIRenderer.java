@@ -47,7 +47,7 @@ public class ScreenUIRenderer extends Screen {
     @Override
     public void removed() {
         ui.destroy();
-        super.onClose();
+        super.removed();
     }
 
     @Override
