@@ -1,17 +1,20 @@
-package com.github.wintersteve25.tau.tests;
+package com.github.wintersteve25.tautest.tests;
 
 import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.components.layout.Center;
 import com.github.wintersteve25.tau.components.utils.Text;
+import com.github.wintersteve25.tau.components.utils.Tooltip;
 import com.github.wintersteve25.tau.layout.Layout;
 import com.github.wintersteve25.tau.theme.Theme;
+import net.minecraft.network.chat.Component;
 
-public class TestText implements UIComponent {
+public class TestTooltip implements UIComponent {
     @Override
     public UIComponent build(Layout layout, Theme theme) {
         return new Center(
-            new Text.Builder("Wow hello a lot of textttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt")
-                    .withOverflowBehaviour(Text.OverflowBehaviour.ELLIPSIS)
+            new Tooltip.Builder()
+                .withComponent(Component.literal("Test"))
+                .build(new Text.Builder("HALLO!"))
         );
     }
 }

@@ -1,4 +1,4 @@
-package com.github.wintersteve25.tau.tests;
+package com.github.wintersteve25.tautest.tests;
 
 import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.components.interactable.Button;
@@ -23,7 +23,7 @@ public class TestAll implements UIComponent {
                 .withSpacing(2)
                 .build(
                         new TestButton(new TestAlign()),
-                        new TestButton(new com.github.wintersteve25.tau.tests.TestButton()),
+                        new TestButton(new com.github.wintersteve25.tautest.tests.TestButton()),
                         new TestButton(new TestCenter()),
                         new TestButton(new TestClip()),
                         new TestButton(new TestColumn()),

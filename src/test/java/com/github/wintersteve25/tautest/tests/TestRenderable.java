@@ -1,4 +1,4 @@
-package com.github.wintersteve25.tau.tests;
+package com.github.wintersteve25.tautest.tests;
 
 import com.github.wintersteve25.tau.components.base.UIComponent;
 import com.github.wintersteve25.tau.components.render.RenderableComponent;
