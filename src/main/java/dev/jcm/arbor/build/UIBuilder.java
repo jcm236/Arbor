@@ -58,4 +58,11 @@ public class UIBuilder {
         }
         return relayout;
     }
+
+    /**
+     * @return the size the component would take in this layout
+     */
+    public static SimpleVec2i measure(Layout layout, Theme theme, UIComponent component) {
+        return build(layout.copy(), theme, component, new BuildContext());
+    }
 }

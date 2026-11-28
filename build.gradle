@@ -214,6 +214,9 @@ tasks.withType(Jar).configureEach {
 publishing {
     publications {
         register('mavenJava', MavenPublication) {
+            groupId = mod_group_id
+            artifactId = mod_id
+            version = mod_version
             artifact jar
         }
     }

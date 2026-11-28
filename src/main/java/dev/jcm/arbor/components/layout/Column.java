@@ -1,61 +1,16 @@
 package dev.jcm.arbor.components.layout;
 
-import dev.jcm.arbor.build.BuildContext;
-import dev.jcm.arbor.build.UIBuilder;
-import dev.jcm.arbor.components.base.PrimitiveUIComponent;
 import dev.jcm.arbor.components.base.UIComponent;
 import dev.jcm.arbor.layout.Axis;
-import dev.jcm.arbor.layout.Layout;
 import dev.jcm.arbor.layout.LayoutSetting;
-import dev.jcm.arbor.theme.Theme;
 import dev.jcm.arbor.utils.FlexSizeBehaviour;
-import dev.jcm.arbor.utils.SimpleVec2i;
 
 import java.util.Arrays;
 
-public final class Column implements PrimitiveUIComponent {
-
-    private final Iterable<UIComponent> children;
-    private final int spacing;
-    private final FlexSizeBehaviour sizeBehaviour;
-    private final LayoutSetting alignment;
-
+public class Column extends Flex {
     public Column(int spacing, FlexSizeBehaviour sizeBehaviour, Iterable<UIComponent> children, LayoutSetting alignment) {
-        this.children = children;
-        this.spacing = spacing;
-        this.sizeBehaviour = sizeBehaviour;
-        this.alignment = alignment;
+        super(Axis.VERTICAL, spacing, sizeBehaviour, children, alignment);
     }
-
-    @Override
-    public SimpleVec2i build(Layout layout, Theme theme, BuildContext context) {
-
-        SimpleVec2i size;
-
-        if (sizeBehaviour == FlexSizeBehaviour.MIN) {
-            size = SimpleVec2i.zero();
-
-            for (UIComponent child : children) {
-                // todo avoid building twice?
-                SimpleVec2i childSize = UIBuilder.build(layout.copy(), theme, child, new BuildContext());
-                size.y += childSize.y + spacing;
-                size.x = Math.max(size.x, childSize.x);
-            }
-        } else {
-            size = new SimpleVec2i(layout.getWidth(), layout.getHeight());
-        }
-
-        Layout childrenLayout = new Layout(size.x, size.y, layout.getPosition(Axis.HORIZONTAL, size.x), layout.getPosition(Axis.VERTICAL, size.y));
-        childrenLayout.pushLayoutSetting(Axis.HORIZONTAL, alignment);
-
-        for (UIComponent child : children) {
-            SimpleVec2i childSize = UIBuilder.build(childrenLayout, theme, child, context);
-            childrenLayout.pushOffset(Axis.VERTICAL, childSize.y + spacing);
-        }
-
-        return size;
-    }
-
 
     public static final class Builder {
         private int spacing;
