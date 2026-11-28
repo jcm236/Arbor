@@ -36,12 +36,11 @@ public final class Text implements PrimitiveUIComponent, RenderProvider {
         color = color == null ? theme.getTextColor() : color;
 
         Font fontRenderer = Minecraft.getInstance().font;
-        int width = fontRenderer.width(text);
         ellipsisWidth = fontRenderer.width(ellipsisText);
 
         SimpleVec2i size = this.measure(layout, theme);
-        width = size.x();
-        int height = size.y()
+        int width = size.x();
+        int height = size.y();
 
         int x = layout.getPosition(Axis.HORIZONTAL, width);
         int y = layout.getPosition(Axis.VERTICAL, height);
