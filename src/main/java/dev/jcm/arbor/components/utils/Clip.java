@@ -39,14 +39,14 @@ public final class Clip implements PrimitiveUIComponent {
 
         SimpleVec2i scaledClipSize = size.get(childSize);
         SimpleVec2i scaledPosition = layout.getPosition(childSize);
-        scaledPosition.add(offset);
+        scaledPosition = scaledPosition.addNew(offset);
 
         double guiScale = window.getGuiScale();
 
-        int glX = (int) (scaledPosition.x * guiScale);
-        int glY = (int) ((window.getGuiScaledHeight() - (scaledPosition.y + scaledClipSize.y)) * guiScale);
-        int glWidth = (int) (scaledClipSize.x * guiScale);
-        int glHeight = (int) (scaledClipSize.y * guiScale);
+        int glX = (int) (scaledPosition.x() * guiScale);
+        int glY = (int) ((window.getGuiScaledHeight() - (scaledPosition.y() + scaledClipSize.y())) * guiScale);
+        int glWidth = (int) (scaledClipSize.x() * guiScale);
+        int glHeight = (int) (scaledClipSize.y() * guiScale);
 
         context.renderables().add((graphics, pMouseX, pMouseY, pPartialTicks) -> {
             RenderSystem.enableScissor(glX, glY, glWidth, glHeight);

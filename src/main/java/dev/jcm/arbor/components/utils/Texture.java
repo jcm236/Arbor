@@ -29,11 +29,9 @@ public final class Texture implements PrimitiveUIComponent {
 
         SimpleVec2i position = layout.getPosition(size);
 
-        context.renderables().add((graphics, pMouseX, pMouseY, pPartialTicks) -> {
-            graphics.blit(textureLocation, position.x, position.y, size.x, size.y, uv.x, uv.y, uvSize.x, uvSize.y,
-                    textureSize.x,
-                    textureSize.y);
-        });
+        context.renderables().add((graphics, pMouseX, pMouseY, pPartialTicks) -> graphics.blit(textureLocation, position.x(), position.y(), size.x(), size.y(), uv.x(), uv.y(), uvSize.x(), uvSize.y(),
+                textureSize.x(),
+                textureSize.y()));
 
         return size;
     }

@@ -5,7 +5,6 @@ import java.text.Format;
 import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 public class StringAlignUtils extends Format {
 
@@ -35,11 +34,8 @@ public class StringAlignUtils extends Format {
     public StringBuffer format(Object input, StringBuffer where, FieldPosition ignore) {
         String s = input.toString();
         List<String> strings = splitInputString(s);
-        ListIterator<String> listItr = strings.listIterator();
 
-        while (listItr.hasNext()) {
-            String wanted = listItr.next();
-
+        for (String wanted : strings) {
             //Get the spaces in the right place.
             switch (currentAlignment) {
                 case RIGHT:
@@ -69,7 +65,7 @@ public class StringAlignUtils extends Format {
     }
 
     private List<String> splitInputString(String str) {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         if (str == null)
             return list;
         for (int i = 0; i < str.length(); i = i + maxChars) {
@@ -80,8 +76,7 @@ public class StringAlignUtils extends Format {
     }
 
     protected final void pad(StringBuffer to, int howMany) {
-        for (int i = 0; i < howMany; i++)
-            to.append(' ');
+        to.append(" ".repeat(Math.max(0, howMany)));
     }
 
     public enum Alignment {

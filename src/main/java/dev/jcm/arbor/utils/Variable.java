@@ -51,9 +51,7 @@ public class Variable<T> {
     public Variable<T> map(Function<T, T> mapper) {
         Variable<T> variable = new Variable<>(mapper.apply(value));
 
-        this.addListener(v -> {
-            variable.setValue(mapper.apply(v));
-        });
+        this.addListener(v -> variable.setValue(mapper.apply(v)));
 
         return variable;
     }

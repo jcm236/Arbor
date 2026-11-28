@@ -46,7 +46,7 @@ public abstract class DynamicUIComponent implements UIComponent {
         this.layout = layout.copy();
         this.theme = theme;
         SimpleVec2i size = buildContent();
-        lastSize = new SimpleVec2i(size.x, size.y);
+        lastSize = new SimpleVec2i(size.x(), size.y());
 
         if (this instanceof GuiEventListener self) parent.eventListeners().add(self);
         parent.eventListeners().add(listeners);
@@ -70,10 +70,10 @@ public abstract class DynamicUIComponent implements UIComponent {
         if (dirty) {
             dirty = false;
             SimpleVec2i size = buildContent();
-            if (size.x != lastSize.x || size.y != lastSize.y) {
+            if (size.x() != lastSize.x() || size.y() != lastSize.y()) {
                 relayout = true;
             }
-            lastSize = new SimpleVec2i(size.x, size.y);
+            lastSize = new SimpleVec2i(size.x(), size.y());
         }
         return relayout;
     }

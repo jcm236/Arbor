@@ -22,7 +22,7 @@ public class ItemSlot implements PrimitiveUIComponent {
     public SimpleVec2i build(Layout layout, Theme theme, BuildContext context) {
         SimpleVec2i pos = layout.getPosition(SIZE);
 
-        context.renderables().add((pGuiGraphics, pMouseX, pMouseY, pPartialTick) -> theme.drawSlot(pGuiGraphics, pos.x, pos.y));
+        context.renderables().add((pGuiGraphics, pMouseX, pMouseY, pPartialTick) -> theme.drawSlot(pGuiGraphics, pos.x(), pos.y()));
         context.slots().add(new MenuSlot<>(pos, slotHandler));
 
         return SIZE;

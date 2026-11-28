@@ -32,7 +32,7 @@ public class ArborContainerScreen extends AbstractContainerScreen<ArborContainer
 
     @Override
     protected void init() {
-        Layout layout = new Layout(uiMenu.getSize().x, uiMenu.getSize().y);
+        Layout layout = new Layout(uiMenu.getSize().x(), uiMenu.getSize().y());
         leftPos = uiMenu.getLeftPos(layout, width, height);
         topPos = uiMenu.getTopPos(layout, width, height);
 

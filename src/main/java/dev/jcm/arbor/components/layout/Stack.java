@@ -41,13 +41,7 @@ public final class Stack implements PrimitiveUIComponent {
 
         for (UIComponent child : children) {
             SimpleVec2i cSize = UIBuilder.build(layout, theme, child, childContext);
-            if (cSize.x > size.x) {
-                size.x = cSize.x;
-            }
-
-            if (cSize.y > size.y) {
-                size.y = cSize.y;
-            }
+            size = size.max(cSize);
         }
 
         context.addAll(childContext);

@@ -77,7 +77,7 @@ public class Layout {
     }
 
     public SimpleVec2i getPosition(SimpleVec2i size) {
-        return new SimpleVec2i(getPosition(Axis.HORIZONTAL, size.x), getPosition(Axis.VERTICAL, size.y));
+        return new SimpleVec2i(getPosition(Axis.HORIZONTAL, size.x()), getPosition(Axis.VERTICAL, size.y()));
     }
 
     public int getPosition(Axis axis, int length) {

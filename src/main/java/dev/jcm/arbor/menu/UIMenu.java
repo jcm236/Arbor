@@ -86,7 +86,7 @@ public abstract class UIMenu {
 
     public ArborContainerMenu newMenu(ArborMenuHolder menuHolder, Inventory playerInv, int containerId, MenuContext menuContext) {
         SimpleVec2i size = getSize();
-        Layout layout = new Layout(size.x, size.y);
+        Layout layout = new Layout(size.x(), size.y());
         List<? extends MenuSlot<? extends ISlotHandler>> s;
 
         ArborContainerMenu menu = createMenu(menuHolder, playerInv, containerId, menuContext);
@@ -97,7 +97,7 @@ public abstract class UIMenu {
         }
 
         for (MenuSlot<?> slot : s) {
-            slot.handler().setupSync(menu, playerInv, slot.pos().x, slot.pos().y);
+            slot.handler().setupSync(menu, playerInv, slot.pos().x(), slot.pos().y());
         }
 
         addDataSlots(menu);

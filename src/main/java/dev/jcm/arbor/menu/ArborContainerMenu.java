@@ -71,7 +71,7 @@ public class ArborContainerMenu extends AbstractContainerMenu {
 
     public void addDataSlot(String name, DataSlot slot) {
         if (dataSlots.containsKey(name)) {
-            Arbor.LOGGER.error("Duplicated data slot key: " + name);
+            Arbor.LOGGER.error("Duplicated data slot key: {}", name);
             return;
         }
 
@@ -81,7 +81,7 @@ public class ArborContainerMenu extends AbstractContainerMenu {
 
     public Optional<Supplier<Integer>> getGetterForDataSlot(String name) {
         if (!dataSlots.containsKey(name)) {
-            Arbor.LOGGER.error("Unknown data slot key: " + name);
+            Arbor.LOGGER.error("Unknown data slot key: {}", name);
             return Optional.empty();
         }
 

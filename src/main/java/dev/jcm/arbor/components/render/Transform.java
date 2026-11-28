@@ -1,5 +1,6 @@
 package dev.jcm.arbor.components.render;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.jcm.arbor.build.BuildContext;
 import dev.jcm.arbor.build.UIBuilder;
 import dev.jcm.arbor.components.base.PrimitiveUIComponent;
@@ -9,7 +10,6 @@ import dev.jcm.arbor.menu.MenuSlot;
 import dev.jcm.arbor.theme.Theme;
 import dev.jcm.arbor.utils.SimpleVec2i;
 import dev.jcm.arbor.utils.Transformation;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.ContainerEventHandler;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -58,22 +58,22 @@ public final class Transform implements PrimitiveUIComponent, ContainerEventHand
 
             for (Transformation transformation : transformations) {
                 transformation.transform(poseStack);
-                transformation.transformPoint(mousePos);
+                mousePos = transformation.transformPoint(mousePos);
             }
 
             for (Renderable renderable : children) {
-                renderable.render(graphics, mousePos.x, mousePos.y, pPartialTicks);
+                renderable.render(graphics, mousePos.x(), mousePos.y(), pPartialTicks);
             }
 
             poseStack.popPose();
         });
 
         for (MenuSlot<?> slot : slots) {
+            SimpleVec2i pos = slot.pos();
             for (Transformation transformation : transformations) {
-                transformation.transformPoint(slot.pos());
+                pos = transformation.transformPoint(pos);
             }
-
-            context.slots().add(slot);
+            context.slots().add(slot.withPos(pos));
         }
 
         return size;

@@ -63,6 +63,6 @@ public class Flex implements PrimitiveUIComponent {
     }
 
     private static int along(SimpleVec2i v, Axis axis) {
-        return axis == Axis.HORIZONTAL ? v.x : v.y;
+        return axis == Axis.HORIZONTAL ? v.x() : v.y();
     }
 }

@@ -31,10 +31,10 @@ public final class Sized implements PrimitiveUIComponent {
         }
 
         Layout childLayout = new Layout(
-                componentSize.x,
-                componentSize.y,
-                layout.getPosition(Axis.HORIZONTAL, componentSize.x),
-                layout.getPosition(Axis.VERTICAL, componentSize.y));
+                componentSize.x(),
+                componentSize.y(),
+                layout.getPosition(Axis.HORIZONTAL, componentSize.x()),
+                layout.getPosition(Axis.VERTICAL, componentSize.y()));
 
         UIBuilder.build(childLayout, theme, child, context);
         return componentSize;

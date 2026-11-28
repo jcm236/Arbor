@@ -46,7 +46,7 @@ public final class Tooltip implements PrimitiveUIComponent {
         SimpleVec2i position = layout.getPosition(size);
 
         context.tooltips().add((pPoseStack, pMouseX, pMouseY, pPartialTicks) -> {
-            if (SimpleVec2i.within(pMouseX, pMouseY, position.x - 1, position.y - 1, size.x + 1, size.y + 1)) {
+            if (SimpleVec2i.within(pMouseX, pMouseY, position.x() - 1, position.y() - 1, size.x() + 1, size.y() + 1)) {
                 List<ClientTooltipComponent> components = ForgeHooksClient.gatherTooltipComponents(ItemStack.EMPTY, this.components, pMouseX, screenWidth, screenHeight, fontRenderer);
                 List<ClientTooltipComponent> all = new ArrayList<>(components.size() + clientComponents.size());
                 all.addAll(clientComponents);

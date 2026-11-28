@@ -32,17 +32,17 @@ public class AnimatedTexture implements PrimitiveUIComponent {
         SimpleVec2i position = layout.getPosition(size);
 
         context.renderables().add((graphics, pMouseX, pMouseY, pPartialTicks) -> {
-            int uvw = uvSize.getValue().x;
-            int uvh = uvSize.getValue().y;
+            int uvw = uvSize.getValue().x();
+            int uvh = uvSize.getValue().y();
             if (uvw <= 0 || uvh <= 0) return;
             if (stretchToSize) {
-                graphics.blit(textureLocation, position.x, position.y, size.x, size.y, uvPos.getValue().x, uvPos.getValue().y, uvw, uvh,
-                        textureSize.x,
-                        textureSize.y);
+                graphics.blit(textureLocation, position.x(), position.y(), size.x(), size.y(), uvPos.getValue().x(), uvPos.getValue().y(), uvw, uvh,
+                        textureSize.x(),
+                        textureSize.y());
             } else {
-                graphics.blit(textureLocation, position.x, position.y, uvw, uvh, uvPos.getValue().x, uvPos.getValue().y, uvw, uvh,
-                        textureSize.x,
-                        textureSize.y);
+                graphics.blit(textureLocation, position.x(), position.y(), uvw, uvh, uvPos.getValue().x(), uvPos.getValue().y(), uvw, uvh,
+                        textureSize.x(),
+                        textureSize.y());
             }
         });
 

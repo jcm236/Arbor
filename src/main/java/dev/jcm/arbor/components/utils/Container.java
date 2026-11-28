@@ -40,8 +40,8 @@ public final class Container implements PrimitiveUIComponent {
         }
 
         if (drawBackground) {
-            int width = size.x;
-            int height = size.y;
+            int width = size.x();
+            int height = size.y();
             int x = layout.getPosition(Axis.HORIZONTAL, width);
             int y = layout.getPosition(Axis.VERTICAL, height);
             context.renderables().add((graphics, pMouseX, pMouseY, pPartialTicks) -> theme.drawContainer(graphics, x, y, width, height, pPartialTicks, pMouseX, pMouseY));

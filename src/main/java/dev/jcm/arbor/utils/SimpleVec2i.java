@@ -1,13 +1,6 @@
 package dev.jcm.arbor.utils;
 
-public class SimpleVec2i {
-    public int x;
-    public int y;
-
-    public SimpleVec2i(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
+public record SimpleVec2i(int x, int y) {
 
     public static SimpleVec2i zero() {
         return new SimpleVec2i(0, 0);
@@ -21,16 +14,19 @@ public class SimpleVec2i {
         return mouseX > x && mouseX < x + width && mouseY > y && mouseY < y + height;
     }
 
-    public void add(SimpleVec2i other) {
-        this.x += other.x;
-        this.y += other.y;
-    }
-
     public SimpleVec2i addNew(SimpleVec2i other) {
         return new SimpleVec2i(x + other.x, y + other.y);
     }
 
     public boolean outside(SimpleVec2i other) {
         return x > other.x || y > other.y;
+    }
+
+    public SimpleVec2i max(SimpleVec2i other) {
+        return new SimpleVec2i(Math.max(x, other.x), Math.max(y, other.y));
+    }
+
+    public SimpleVec2i min(SimpleVec2i other) {
+        return new SimpleVec2i(Math.min(x, other.x), Math.min(y, other.y));
     }
 }

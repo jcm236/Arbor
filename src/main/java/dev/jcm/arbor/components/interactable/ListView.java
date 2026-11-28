@@ -54,7 +54,7 @@ public final class ListView extends DynamicUIComponent implements PrimitiveUICom
 
         // TODO is there a way to avoid building it again?
         SimpleVec2i childrenSize = UIBuilder.build(layout.copy(), theme, column.build(children), new BuildContext());
-        maxScroll = childrenSize.y - size.y + 1; // 1 for padding
+        maxScroll = childrenSize.y() - size.y() + 1; // 1 for padding
 
         return UIBuilder.build(
                 layout,

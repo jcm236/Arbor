@@ -12,7 +12,7 @@ public interface Size {
             return ZERO;
         }
 
-        return size -> new SimpleVec2i(Math.round(size.x * percentage), Math.round(size.y * percentage));
+        return size -> new SimpleVec2i(Math.round(size.x() * percentage), Math.round(size.y() * percentage));
     }
 
     static Size percentage(float percentageX, float percentageY) {
@@ -21,7 +21,7 @@ public interface Size {
             return ZERO;
         }
 
-        return size -> new SimpleVec2i(Math.round(size.x * percentageX), Math.round(size.y * percentageY));
+        return size -> new SimpleVec2i(Math.round(size.x() * percentageX), Math.round(size.y() * percentageY));
     }
 
     static Size staticSize(SimpleVec2i size) {

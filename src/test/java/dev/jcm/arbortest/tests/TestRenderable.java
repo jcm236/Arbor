@@ -9,8 +9,6 @@ import dev.jcm.arbor.utils.Color;
 public class TestRenderable implements UIComponent {
     @Override
     public UIComponent build(Layout layout, Theme theme) {
-        return new RenderableComponent(((graphics, pMouseX, pMouseY, pPartialTicks) -> {
-            graphics.fill(0, 0, pMouseX, pMouseY, Color.WHITE.getAARRGGBB());
-        }));
+        return new RenderableComponent(((graphics, pMouseX, pMouseY, pPartialTicks) -> graphics.fill(0, 0, pMouseX, pMouseY, Color.WHITE.getAARRGGBB())));
     }
 }

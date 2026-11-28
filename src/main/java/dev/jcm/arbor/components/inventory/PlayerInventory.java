@@ -27,12 +27,12 @@ public class PlayerInventory implements PrimitiveUIComponent {
         context.renderables().add((pGuiGraphics, pMouseX, pMouseY, pPartialTick) -> {
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 9; j++) {
-                    theme.drawSlot(pGuiGraphics, pos.x + j * 18, pos.y + i * 18);
+                    theme.drawSlot(pGuiGraphics, pos.x() + j * 18, pos.y() + i * 18);
                 }
             }
 
             for (int i = 0; i < 9; i++) {
-                theme.drawSlot(pGuiGraphics, pos.x + i * 18, pos.y + 58);
+                theme.drawSlot(pGuiGraphics, pos.x() + i * 18, pos.y() + 58);
             }
         });
 
