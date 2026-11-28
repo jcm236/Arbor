@@ -24,8 +24,7 @@ public class UIBuilder {
     // param size is the accumulated size of this component branch
     private static SimpleVec2i build(Layout layout, Theme theme, UIComponent uiComponent, BuildContext context, SimpleVec2i size) {
         if (uiComponent instanceof DynamicUIComponent dynamic) {
-            size.addNew(dynamic.mount(layout, theme, context));
-            return size;
+            return size.addNew(dynamic.mount(layout, theme, context));
         }
 
         if (uiComponent instanceof GuiEventListener) {
@@ -33,7 +32,7 @@ public class UIBuilder {
         }
 
         if (uiComponent instanceof PrimitiveUIComponent primitiveUIComponent) {
-            size.addNew(primitiveUIComponent.build(layout, theme, context));
+            size = size.addNew(primitiveUIComponent.build(layout, theme, context));
         }
 
         UIComponent next = uiComponent.build(layout, theme);

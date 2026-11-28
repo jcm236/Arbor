@@ -7,11 +7,11 @@ public record SimpleVec2i(int x, int y) {
     }
 
     public static boolean within(int mouseX, int mouseY, SimpleVec2i position, SimpleVec2i size) {
-        return mouseX > position.x && mouseX < position.x + size.x && mouseY > position.y && mouseY < position.y + size.y;
+        return within(mouseX, mouseY, position.x, position.y, size.x, size.y);
     }
 
     public static boolean within(int mouseX, int mouseY, int x, int y, int width, int height) {
-        return mouseX > x && mouseX < x + width && mouseY > y && mouseY < y + height;
+        return mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height;
     }
 
     public SimpleVec2i addNew(SimpleVec2i other) {
