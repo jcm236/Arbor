@@ -34,32 +34,44 @@ public class Flex implements PrimitiveUIComponent {
     public SimpleVec2i build(Layout layout, Theme theme, BuildContext context) {
         Axis cross = mainAxis == Axis.HORIZONTAL ? Axis.VERTICAL : Axis.HORIZONTAL;
         int n = children.size();
+
+        SizePlan plan = this.plan(layout, theme);
+
+        int cursor = layout.getPosition(mainAxis, plan.mainSize());
+        int crossPos = layout.getPosition(cross, plan.crossSize());
+        for (int i = 0; i < n; i++) {
+            Layout slot = mainAxis == Axis.HORIZONTAL ? new Layout(plan.lengths()[i], plan.crossSize(), cursor, crossPos) : new Layout(plan.crossSize(), plan.lengths()[i], crossPos, cursor);
+            slot.pushLayoutSetting(cross, alignment);
+            UIBuilder.build(slot, theme, children.get(i), context);
+            cursor += plan.lengths()[i] + spacing;
+        }
+
+        return mainAxis == Axis.HORIZONTAL ? new SimpleVec2i(plan.mainSize(), plan.crossSize()) : new SimpleVec2i(plan.crossSize(), plan.mainSize());
+    }
+
+    private record SizePlan(int[] lengths, int mainSize, int crossSize) {}
+
+    private SizePlan plan(Layout layout, Theme theme) {
+        Axis cross = mainAxis == Axis.HORIZONTAL ? Axis.VERTICAL : Axis.HORIZONTAL;
+        int n = children.size();
         int[] lengths = new int[n];
         int totalMain = 0, crossSize = 0;
-
         for (int i = 0; i < n; i++) {
             SimpleVec2i size = UIBuilder.measure(layout, theme, children.get(i));
             lengths[i] = along(size, mainAxis);
             totalMain += lengths[i];
             crossSize = Math.max(crossSize, along(size, cross));
         }
-
         int gaps = spacing * Math.max(0, n - 1);
         int mainSize = sizeBehaviour == FlexSizeBehaviour.MAX ? layout.getMaximumLength(mainAxis) : totalMain + gaps;
-        if (sizeBehaviour == FlexSizeBehaviour.MAX) {
-            crossSize = layout.getMaximumLength(cross);
-        }
+        if (sizeBehaviour == FlexSizeBehaviour.MAX) crossSize = layout.getMaximumLength(cross);
+        return new SizePlan(lengths, mainSize, crossSize);
+    }
 
-        int cursor = layout.getPosition(mainAxis, mainSize);
-        int crossPos = layout.getPosition(cross, crossSize);
-        for (int i = 0; i < n; i++) {
-            Layout slot = mainAxis == Axis.HORIZONTAL ? new Layout(lengths[i], crossSize, cursor, crossPos) : new Layout(crossSize, lengths[i], crossPos, cursor);
-            slot.pushLayoutSetting(cross, alignment);
-            UIBuilder.build(slot, theme, children.get(i), context);
-            cursor += lengths[i] + spacing;
-        }
-
-        return mainAxis == Axis.HORIZONTAL ? new SimpleVec2i(mainSize, crossSize) : new SimpleVec2i(crossSize, mainSize);
+    @Override
+    public SimpleVec2i measure(Layout layout, Theme theme) {
+        SizePlan p = plan(layout, theme);
+        return mainAxis == Axis.HORIZONTAL ? new SimpleVec2i(p.mainSize(), p.crossSize()) : new SimpleVec2i(p.crossSize(), p.mainSize());
     }
 
     private static int along(SimpleVec2i v, Axis axis) {

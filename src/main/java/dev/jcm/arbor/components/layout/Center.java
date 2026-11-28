@@ -30,4 +30,9 @@ public final class Center implements PrimitiveUIComponent {
 
         return size;
     }
+
+    @Override
+    public SimpleVec2i measure(Layout layout, Theme theme) {
+        return UIBuilder.measure(layout, theme, child);
+    }
 }

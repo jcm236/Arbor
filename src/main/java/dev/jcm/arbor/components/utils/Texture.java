@@ -36,6 +36,11 @@ public final class Texture implements PrimitiveUIComponent {
         return size;
     }
 
+    @Override
+    public SimpleVec2i measure(Layout layout, Theme theme) {
+        return size;
+    }
+
     public static final class Builder implements UIComponent {
 
         private final ResourceLocation textureLocation;

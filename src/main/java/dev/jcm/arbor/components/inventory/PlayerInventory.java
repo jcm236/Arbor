@@ -38,4 +38,9 @@ public class PlayerInventory implements PrimitiveUIComponent {
 
         return SIZE;
     }
+
+    @Override
+    public SimpleVec2i measure(Layout layout, Theme theme) {
+        return SIZE;
+    }
 }

@@ -18,4 +18,9 @@ public final class Spacer implements PrimitiveUIComponent {
     public SimpleVec2i build(Layout layout, Theme theme, BuildContext context) {
         return size;
     }
+
+    @Override
+    public SimpleVec2i measure(Layout layout, Theme theme) {
+        return size;
+    }
 }

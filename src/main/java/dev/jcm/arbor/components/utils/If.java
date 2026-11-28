@@ -23,4 +23,9 @@ public class If implements PrimitiveUIComponent {
         if (condition) return UIBuilder.build(layout, theme, child, context);
         return SimpleVec2i.zero();
     }
+
+    @Override
+    public SimpleVec2i measure(Layout layout, Theme theme) {
+        return condition ? UIBuilder.measure(layout, theme, child) : SimpleVec2i.zero();
+    }
 }

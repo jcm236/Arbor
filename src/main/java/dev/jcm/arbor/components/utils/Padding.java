@@ -26,19 +26,7 @@ public final class Padding implements PrimitiveUIComponent {
             return UIBuilder.build(layout, theme, child, context);
         }
 
-        if (pad.left() == 0 || pad.right() == 0) {
-            layout.pushOffset(Axis.HORIZONTAL, pad.left() - pad.right());
-        } else {
-            layout.pushOffset(Axis.HORIZONTAL, pad.left());
-            layout.pushSizeMod(Axis.HORIZONTAL, -pad.right() - pad.left());
-        }
-
-        if (pad.top() == 0 || pad.bottom() == 0) {
-            layout.pushOffset(Axis.VERTICAL, pad.top() - pad.bottom());
-        } else {
-            layout.pushOffset(Axis.VERTICAL, pad.top());
-            layout.pushSizeMod(Axis.VERTICAL, -pad.bottom() - pad.top());
-        }
+        pushPadding(layout);
 
         SimpleVec2i size = UIBuilder.build(layout, theme, child, context);
 
@@ -54,5 +42,27 @@ public final class Padding implements PrimitiveUIComponent {
         }
 
         return size.addNew(pad.getSize());
+    }
+
+    private void pushPadding(Layout layout) {
+        if (pad.left() == 0 || pad.right() == 0) {
+            layout.pushOffset(Axis.HORIZONTAL, pad.left() - pad.right());
+        } else {
+            layout.pushOffset(Axis.HORIZONTAL, pad.left());
+            layout.pushSizeMod(Axis.HORIZONTAL, -pad.right() - pad.left());
+        }
+        if (pad.top() == 0 || pad.bottom() == 0) {
+            layout.pushOffset(Axis.VERTICAL, pad.top() - pad.bottom());
+        } else {
+            layout.pushOffset(Axis.VERTICAL, pad.top());
+            layout.pushSizeMod(Axis.VERTICAL, -pad.bottom() - pad.top());
+        }
+    }
+
+    @Override
+    public SimpleVec2i measure(Layout layout, Theme theme) {
+        if (pad == null) return UIBuilder.measure(layout, theme, child);
+        pushPadding(layout);                     // safe: measure gets a copy, so no pops needed
+        return UIBuilder.measure(layout, theme, child).addNew(pad.getSize());
     }
 }

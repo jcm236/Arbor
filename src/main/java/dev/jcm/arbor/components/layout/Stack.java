@@ -48,6 +48,14 @@ public final class Stack implements PrimitiveUIComponent {
         return size;
     }
 
+    @Override
+    public SimpleVec2i measure(Layout layout, Theme theme) {
+        if (sizeBehaviour == FlexSizeBehaviour.MAX) return layout.getSize();
+        SimpleVec2i size = SimpleVec2i.zero();
+        for (UIComponent child : children) size = size.max(UIBuilder.measure(layout, theme, child));
+        return size;
+    }
+
     public static class Builder {
         private Iterable<UIComponent> children;
         private FlexSizeBehaviour sizeBehaviour;

@@ -15,4 +15,11 @@ public interface PrimitiveUIComponent extends UIComponent {
     default UIComponent build(Layout layout, Theme theme) {
         return null;
     }
+
+    /**
+     * Returns this component's size in the given layout
+     */
+    default SimpleVec2i measure(Layout layout, Theme theme) {
+        return build(layout, theme, new BuildContext());
+    }
 }

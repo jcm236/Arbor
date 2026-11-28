@@ -39,14 +39,9 @@ public final class Text implements PrimitiveUIComponent, RenderProvider {
         int width = fontRenderer.width(text);
         ellipsisWidth = fontRenderer.width(ellipsisText);
 
-        boolean willOverflow = width > layout.getWidth();
-        if (willOverflow) {
-            width = layout.getWidth();
-        }
-
-        int height = willOverflow && overflowBehaviour == OverflowBehaviour.WRAP ?
-                fontRenderer.wordWrapHeight(text.getString(), width) :
-                8; // constant for line height in minecraft
+        SimpleVec2i size = this.measure(layout, theme);
+        width = size.x();
+        int height = size.y()
 
         int x = layout.getPosition(Axis.HORIZONTAL, width);
         int y = layout.getPosition(Axis.VERTICAL, height);
@@ -64,6 +59,22 @@ public final class Text implements PrimitiveUIComponent, RenderProvider {
         }
 
         return new SimpleVec2i(width, height);
+    }
+
+    private SimpleVec2i computeSize(Layout layout) {
+        Font font = Minecraft.getInstance().font;
+        int width = font.width(text);
+        boolean willOverflow = width > layout.getWidth();
+        if (willOverflow) width = layout.getWidth();
+        int height = willOverflow && overflowBehaviour == OverflowBehaviour.WRAP
+                ? font.wordWrapHeight(text.getString(), width)
+                : 8;
+        return new SimpleVec2i(width, height);
+    }
+
+    @Override
+    public SimpleVec2i measure(Layout layout, Theme theme) {
+        return computeSize(layout);
     }
 
     @Override

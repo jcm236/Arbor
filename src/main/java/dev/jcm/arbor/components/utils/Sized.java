@@ -39,4 +39,14 @@ public final class Sized implements PrimitiveUIComponent {
         UIBuilder.build(childLayout, theme, child, context);
         return componentSize;
     }
+
+    private SimpleVec2i resolveSize(Layout layout) {
+        SimpleVec2i componentSize = size.get(layout.getSize());
+        return componentSize.outside(layout.getSize()) ? layout.getSize() : componentSize;
+    }
+
+    @Override
+    public SimpleVec2i measure(Layout layout, Theme theme) {
+        return resolveSize(layout);
+    }
 }

@@ -22,4 +22,9 @@ public final class Positioned implements PrimitiveUIComponent {
         Layout childLayout = new Layout(layout.getWidth(), layout.getHeight(), position.x(), position.y());
         return UIBuilder.build(childLayout, theme, child, context);
     }
+
+    @Override
+    public SimpleVec2i measure(Layout layout, Theme theme) {
+        return UIBuilder.measure(new Layout(layout.getWidth(), layout.getHeight(), position.x(), position.y()), theme, child);
+    }
 }

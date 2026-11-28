@@ -61,6 +61,11 @@ public final class Clip implements PrimitiveUIComponent {
         return childSize;
     }
 
+    @Override
+    public SimpleVec2i measure(Layout layout, Theme theme) {
+        return UIBuilder.measure(layout, theme, child);
+    }
+
     public static final class Builder {
         private SimpleVec2i offset;
         private Size size;

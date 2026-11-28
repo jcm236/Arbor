@@ -51,6 +51,11 @@ public final class Container implements PrimitiveUIComponent {
         return size;
     }
 
+    @Override
+    public SimpleVec2i measure(Layout layout, Theme theme) {
+        if (child == null || sizeBehaviour != FlexSizeBehaviour.MIN) return layout.getSize();
+        return UIBuilder.measure(layout, theme, child);
+    }
 
     public static final class Builder implements UIComponent {
         private UIComponent child;
